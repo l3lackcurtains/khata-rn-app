@@ -1,7 +1,6 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { COLOR, ThemeProvider } from 'react-native-material-ui'
-
 import { store, AppWithNavigationState } from './redux'
 
 // App theme config.

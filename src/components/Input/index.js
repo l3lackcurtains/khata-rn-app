@@ -1,34 +1,38 @@
 import React from 'react'
-import { Isao, Madoka } from 'react-native-textinput-effects'
+import { Madoka } from 'react-native-textinput-effects'
+import { StyleSheet } from 'react-native'
 
-const PrimaryInput = props => (
+const styles = StyleSheet.create({
+	inputStyle: {
+		fontFamily: 'Roboto',
+		color: '#444',
+	},
+	labelStyle: {
+		fontFamily: 'Roboto',
+		color: '#666'
+	}
+})
+
+const borderColor = '#bdbdbd'
+
+const TextField = props => (
 	<Madoka
-		borderColor="#000"
-		inputStyle={{
-			fontFamily: 'Roboto',
-			color: '#f4a197'
-		}}
-		labelStyle={{
-			fontFamily: 'Roboto',
-			color: '#008445'
-		}}
+		borderColor={borderColor}
+		inputStyle={styles.inputStyle}
+		labelStyle={styles.labelStyle}
 		{...props}
 	/>
 )
 
-const SecondaryInput = props => (
-	<Isao
-		label="First Name"
-		activeColor="#da7071"
-		passiveColor="#dadada"
-		inputStyle={{
-			fontFamily: 'Roboto'
-		}}
-		labelStyle={{
-			fontFamily: 'Roboto'
-		}}
+const TextAreaField = props => (
+	<Madoka
+		borderColor={borderColor}
+		inputStyle={styles.inputStyle}
+		labelStyle={styles.labelStyle}
+		height={120}
+		multiline
 		{...props}
 	/>
 )
 
-export { PrimaryInput, SecondaryInput }
+export { TextField, TextAreaField }

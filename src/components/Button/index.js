@@ -19,15 +19,6 @@ const PrimaryButton = props => (
 
 const SecondaryButton = props => (
 	<Button
-		raised
-		style={{
-			container: {
-				backgroundColor: 'red',
-			},
-			text: {
-				color: '#000'
-			}
-		}}
 		{...props}
 	/>
 )

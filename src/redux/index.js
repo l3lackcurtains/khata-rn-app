@@ -1,11 +1,11 @@
 // @flow
-import React, { Component } from 'react'
-import { BackHandler } from 'react-native'
-import { addNavigationHelpers, NavigationActions } from 'react-navigation'
-import { combineReducers, createStore } from 'redux'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { BackHandler } from 'react-native';
+import { addNavigationHelpers, NavigationActions } from 'react-navigation';
+import { combineReducers, createStore } from 'redux';
+import { connect } from 'react-redux';
 
-import AppNavigator from './AppNavigator'
+import AppNavigator from './AppNavigator';
 
 // flow types
 type Props = {
