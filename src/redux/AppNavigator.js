@@ -6,7 +6,7 @@ import RegisterScreen from '../screens/RegisterScreen'
 const AppNavigator = StackNavigator(
 	{
 		Home: {
-			screen: HomeScreen
+			screen: HomeScreen,
 		},
 		Login: {
 			screen: LoginScreen
@@ -16,7 +16,7 @@ const AppNavigator = StackNavigator(
 		}
 	},
 	{
-		initialRouteName: 'Login',
+		initialRouteName: 'Home',
 	}
 );
 
