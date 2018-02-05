@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import { View, Modal, StyleSheet } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'

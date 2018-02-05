@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import { Madoka } from 'react-native-textinput-effects'
 import { StyleSheet } from 'react-native'
