@@ -30,6 +30,7 @@
   "dependencies": {
     "@expo/vector-icons": "^6.2.2",
     "expo": "^25.0.0",
+    "firebase": "^4.9.1",
     "react": "16.2.0",
     "react-native": "0.52.0",
     "react-native-material-textfield": "^0.12.0",
