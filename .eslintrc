@@ -4,7 +4,7 @@
     "plugins": ["react", "jsx-a11y", "import"],
     "rules": {
           "comma-dangle": 0,
-          "semi": 0,
+          "semi": 1,
           "no-tabs": 0,
           "no-console": 0,
           "no-shadow": 0,

@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
-import { Provider } from 'react-redux'
-import { COLOR, ThemeProvider } from 'react-native-material-ui'
-import firebase from 'firebase'
+import React from 'react';
+import { Provider } from 'react-redux';
+import { COLOR, ThemeProvider } from 'react-native-material-ui';
+import { PersistGate } from 'redux-persist/lib/integration/react';
 
-import { store, AppWithNavigationState } from './redux'
+import { store, AppWithNavigationState, persistor } from './redux';
 
 // App theme config.
 const uiTheme = {
@@ -18,10 +18,12 @@ const uiTheme = {
 }
 
 const MainApp = () => (
-    <Provider store={store}>
-        <ThemeProvider uiTheme={uiTheme}>
-            <AppWithNavigationState />
-        </ThemeProvider>
-    </Provider>
+    <PersistGate loading={null} persistor={persistor}>
+        <Provider store={store}>
+            <ThemeProvider uiTheme={uiTheme}>
+                <AppWithNavigationState />
+            </ThemeProvider>
+        </Provider>
+    </PersistGate>
 )
-export default MainApp
+export default MainApp;

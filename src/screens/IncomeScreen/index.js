@@ -1,13 +1,15 @@
-import React, { Component } from 'react'
-import { View, StyleSheet, Image, FlatList } from 'react-native'
-import { ListItem, Card } from 'react-native-material-ui'
-import firebase from '../../utils/firebase'
+import React, { Component } from 'react';
+import { View, StyleSheet, Image, FlatList } from 'react-native';
+import { ListItem, Card } from 'react-native-material-ui';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 
-import { PText } from '../../components/Text'
-import { PrimaryButton, SecondaryButton } from '../../components/Button'
-import { TextField } from '../../components/Input'
-import ModalBox from '../../components/ModalBox'
-import IncomingImage from '../../assets/images/incoming.png'
+import { PText } from '../../components/Text';
+import { PrimaryButton, SecondaryButton } from '../../components/Button';
+import { TextField } from '../../components/Input';
+import ModalBox from '../../components/ModalBox';
+import IncomingImage from '../../assets/images/incoming.png';
 
 const ListData = [
   {
@@ -65,7 +67,7 @@ const ListData = [
     name: 'Dad sent me',
     amount: 9000,
   }
-]
+];
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -101,45 +103,60 @@ const styles = StyleSheet.create({
     marginHorizontal: -8,
     padding: 0,
   },
-})
+});
 
 class IncomeScreen extends Component {
     state = {
       updateModal: false,
       addModal: false,
       incomeFrom: null,
-      incomeAmount: null
+      incomeAmount: null,
+      currentId: null,
     }
 
     componentDidMount = () => {
-      firebase.database().ref('income').once('value').then((snapshot) => {
-        console.warn(snapshot.val())
-      })
+      //
     }
 
     onAddIncome = () => {
-      this.closeModal('addModal')
-      const incomeFrom2 = this.state.incomeFrom
-      const incomeAmount = parseFloat(this.state.incomeAmount)
-      firebase.database().ref('income').push().set({
-        incomeFrom2,
+      const { firebase } = this.props;
+      this.closeModal('addModal');
+      const { incomeFrom, incomeAmount } = this.state;
+      const income = {
+        incomeFrom,
         incomeAmount
-      })
+      };
+      firebase.push('income', income);
       this.setState({
-        incomeFrom: null,
-        incomeAmount: null
-      })
+        incomeAmount: null,
+        incomeFrom: null
+      });
     }
 
     onUpdateIncome = () => {
-      this.closeModal('updateModal')
+      const { firebase } = this.props;
+      const id = this.state.currentId;
+      const { incomeFrom, incomeAmount } = this.state;
+      const income = {
+        incomeFrom,
+        incomeAmount
+      };
+      firebase.set(`/income/${id}`, income);
+      this.closeModal('updateModal');
+    }
+
+    onRemoveIncome = () => {
+      const { firebase } = this.props;
+      const id = this.state.currentId;
+      firebase.remove(`/income/${id}`);
+      this.closeModal('updateModal');
     }
 
     // Change field helper
     onChangeField = (field, value) => {
       this.setState({
         [field]: value
-      })
+      });
     }
 
     // Modal helper
@@ -147,11 +164,35 @@ class IncomeScreen extends Component {
       this.setState({ [name]: true });
     }
 
+    openUpdateModal(inco) {
+      this.setState({
+        updateModal: true,
+        currentId: inco.key,
+        incomeFrom: inco.incomeFrom,
+        incomeAmount: inco.incomeAmount,
+      });
+    }
+
     closeModal(name) {
-      this.setState({ [name]: false });
+      setTimeout(() => {
+        this.setState({
+          [name]: false,
+          currentId: null,
+          incomeAmount: null,
+          incomeFrom: null
+        });
+      }, 500);
     }
 
     render() {
+      const { income } = this.props;
+      if (!isLoaded(income)) return <PText>Loading</PText>;
+      if (isEmpty(income)) return <PText>Income List is empty</PText>;
+      const incomes = [];
+      Object.keys(income).map(key => incomes.push({
+        key,
+        ...income[key]
+      }));
       return (
             <View style={styles.wrapper}>
                 <View style={styles.incomeCard}>
@@ -168,16 +209,16 @@ class IncomeScreen extends Component {
                 </View>
                 <FlatList
                     style={styles.incomeList}
-                    data={ListData}
+                    data={incomes}
                     renderItem={({ item }) => (
                         <Card>
                             <ListItem
                                 divider
                                 centerElement={{
-                                    primaryText: item.name,
-                                    secondaryText: `Rs. ${item.amount}`,
+                                    primaryText: item.incomeFrom,
+                                    secondaryText: `Rs. ${item.incomeAmount}`,
                                 }}
-                                onPress={() => this.openModal('updateModal')}
+                                onPress={() => this.openUpdateModal(item)}
                             />
                         </Card>
                     )}
@@ -213,13 +254,31 @@ class IncomeScreen extends Component {
                     transparent
                     title="Edit Income"
                     primaryAction={<PrimaryButton text="Update" onPress={this.onUpdateIncome} />}
-                    secondaryAction={<SecondaryButton text="Delete" onPress={() => this.closeModal('updateModal')} />}
+                    secondaryAction={<SecondaryButton text="Delete" onPress={this.onRemoveIncome} />}
                 >
-                    <TextField label="Income From" />
-                    <TextField label="Amount" keyboardType="phone-pad" />
+                    <TextField
+                      name="incomeFrom"
+                      label="Income From"
+                      value={this.state.incomeFrom}
+                      onChangeText={value => this.onChangeField('incomeFrom', value)}
+                    />
+                    <TextField
+                      name="incomeAmount"
+                      label="Amount"
+                      keyboardType="phone-pad"
+                      value={this.state.incomeAmount}
+                      onChangeText={value => this.onChangeField('incomeAmount', value)}
+                    />
                 </ModalBox>
             </View>
-      )
+      );
     }
 }
-export default IncomeScreen
+export default compose(
+  firebaseConnect([
+    'income'
+  ]),
+  connect(state => ({
+    income: state.firebase.data.income,
+  }))
+)(IncomeScreen);
