@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { call, put, takeEvery, all } from 'redux-saga/effects';
+import { AsyncStorage } from 'react-native';
 import firebase from 'firebase';
 import md5 from 'react-native-md5';
 
@@ -9,6 +10,10 @@ import {
     getIncomesErr,
     addIncomeSuccess,
     addIncomeErr,
+    removeIncomeSuccess,
+    removeIncomeErr,
+    updateIncomeSuccess,
+    updateIncomeErr
 } from '../actions/incomeAc';
 
 /*
@@ -18,8 +23,12 @@ import {
 */
 function* getIncomes(action) {
     try {
-        // later
-        yield put(getIncomesSuccess(action));
+        const getIncomes = yield AsyncStorage.getItem('@incomes');
+        let getIncomesJSON = null;
+        if (getIncomes !== null) {
+            getIncomesJSON = JSON.parse(getIncomes);
+        }
+        yield put(getIncomesSuccess(getIncomesJSON));
     } catch (error) {
         yield put(getIncomesErr(error.toString()));
     }
@@ -37,12 +46,20 @@ export function* getIncomesSaga() {
 
 function* addIncome(action) {
     try {
-        const incomeData = {
-            incomeFrom: action.query.incomeFrom,
-            incomeAmount: action.query.incomeAmount
-        };
-        const randomHash = md5.hex_md5(`${Date.now()}hex`);
-        firebase.database().ref(`income/${randomHash}`).set(incomeData);
+        const { incomeAmount, incomeFrom } = action.query;
+        const incomeJSON = { incomeAmount, incomeFrom };
+
+        const getIncomes = yield AsyncStorage.getItem('@incomes');
+        let incomeString = '';
+        if (getIncomes !== null) {
+            const getIncomesJSON = JSON.parse(getIncomes);
+            getIncomesJSON.push(incomeJSON);
+            incomeString = JSON.stringify(getIncomesJSON);
+        } else {
+            incomeString = JSON.stringify([incomeJSON]);
+        }
+        yield AsyncStorage.setItem('@incomes', incomeString);
+
         yield put(addIncomeSuccess(action));
     } catch (error) {
         yield put(addIncomeErr(error.toString()));
@@ -51,4 +68,60 @@ function* addIncome(action) {
 
 export function* addIncomeSaga() {
     yield takeEvery(A.REQ_ADD_INCOME, addIncome);
+}
+
+/*
+ ***************************************
+ * Remove Income
+ * *************************************
+*/
+
+function* removeIncome(action) {
+    const { index } = action.query;
+    try {
+        const getIncomes = yield AsyncStorage.getItem('@incomes');
+        if (getIncomes !== null) {
+            const getIncomesJSON = JSON.parse(getIncomes);
+            if (index !== -1) getIncomesJSON.splice(index, 1);
+            const incomeString = JSON.stringify(getIncomesJSON);
+            yield AsyncStorage.setItem('@incomes', incomeString);
+        }
+
+        yield put(removeIncomeSuccess(action));
+    } catch (error) {
+        yield put(removeIncomeErr(error.toString()));
+    }
+}
+
+export function* removeIncomeSaga() {
+    yield takeEvery(A.REQ_REMOVE_INCOME, removeIncome);
+}
+
+/*
+ ***************************************
+ * Update Income
+ * *************************************
+*/
+
+function* updateIncome(action) {
+    try {
+        const { index, incomeAmount, incomeFrom } = action.query;
+        const getIncomes = yield AsyncStorage.getItem('@incomes');
+        if (getIncomes !== null) {
+            const getIncomesJSON = JSON.parse(getIncomes);
+
+            getIncomesJSON[index].incomeAmount = incomeAmount;
+            getIncomesJSON[index].incomeFrom = incomeFrom;
+
+            const incomeString = JSON.stringify(getIncomesJSON);
+            yield AsyncStorage.setItem('@incomes', incomeString);
+        }
+        yield put(updateIncomeSuccess(action));
+    } catch (error) {
+        yield put(updateIncomeErr(error.toString()));
+    }
+}
+
+export function* updateIncomeSaga() {
+    yield takeEvery(A.REQ_UPDATE_INCOME, updateIncome);
 }

@@ -38,6 +38,7 @@
     "react-native-material-textfield": "^0.12.0",
     "react-native-material-ui": "^1.19.0",
     "react-native-md5": "^1.0.0",
+    "react-native-modalbox": "^1.4.2",
     "react-native-textinput-effects": "^0.4.2",
     "react-navigation": "^1.0.0-beta.27",
     "react-redux": "^5.0.6",

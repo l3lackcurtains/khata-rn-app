@@ -47,3 +47,51 @@ export const addIncomeErr = data => ({
 export const addIncomeReset = () => ({
     type: A.RESET_ADD_INCOME,
 });
+
+/*
+ ***************************************
+ * Remove Income
+ * *************************************
+*/
+export const removeIncomeReq = query => ({
+    type: A.REQ_REMOVE_INCOME,
+    query
+});
+
+export const removeIncomeSuccess = data => ({
+    type: A.REC_REMOVE_INCOME,
+    data,
+});
+
+export const removeIncomeErr = data => ({
+    type: A.REC_REMOVE_INCOME_ERR,
+    data,
+});
+
+export const removeIncomeReset = () => ({
+    type: A.RESET_REMOVE_INCOME,
+});
+
+/*
+ ***************************************
+ * Update Income
+ * *************************************
+*/
+export const updateIncomeReq = query => ({
+    type: A.REQ_UPDATE_INCOME,
+    query,
+});
+
+export const updateIncomeSuccess = data => ({
+    type: A.REC_UPDATE_INCOME,
+    data,
+});
+
+export const updateIncomeErr = data => ({
+    type: A.REC_UPDATE_INCOME_ERR,
+    data,
+});
+
+export const updateIncomeReset = () => ({
+    type: A.RESET_UPDATE_INCOME,
+});

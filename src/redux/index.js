@@ -2,10 +2,9 @@
 import React, { Component } from 'react';
 import { BackHandler, AsyncStorage } from 'react-native';
 import { addNavigationHelpers, NavigationActions } from 'react-navigation';
-import { combineReducers, createStore, compose, applyMiddleware } from 'redux';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
-import { reactReduxFirebase, firebaseReducer } from 'react-redux-firebase';
 import { persistStore, persistReducer } from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
 
@@ -29,24 +28,11 @@ const firebaseConfig = {
     storageBucket: 'gs://khataapp-92a39.appspot.com/'
 };
 
-// react-redux-firebase config
-const rrfConfig = {
-    userProfile: 'users',
-    income: 'income'
-};
-
-
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
 const middlewares = [sagaMiddleware];
-
-// Add middlewares and reactReduxFirebase enhancer when making store creator
-const createStoreWithFirebase = compose(
-    applyMiddleware(...middlewares),
-    reactReduxFirebase(firebase, rrfConfig),
-)(createStore);
 
 const navReducer = (state, action) => {
     const nextState = AppNavigator.router.getStateForAction(action, state);
@@ -54,18 +40,22 @@ const navReducer = (state, action) => {
 };
 
 const persistConfig = {
-    key: 'firebase',
+    key: 'root',
     storage: AsyncStorage,
 };
 
 const appReducer = combineReducers({
     ...rootReducers,
     nav: navReducer,
-    firebase: persistReducer(persistConfig, firebaseReducer),
 });
 
-const initialState = {};
-const store = createStoreWithFirebase(appReducer, initialState);
+const persistedReducer = persistReducer(persistConfig, appReducer);
+
+const store = createStore(
+    persistedReducer,
+    applyMiddleware(...middlewares),
+);
+
 const persistor = persistStore(store);
 
 // Run Saga Middleware
