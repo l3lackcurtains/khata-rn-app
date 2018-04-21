@@ -1,5 +1,23 @@
 {
   "expo": {
-    "sdkVersion": "25.0.0"
+   "name": "Khata App",
+   "icon": "./src/assets/images/wallet.png",
+   "version": "1.0.0",
+   "slug": "khata-app",
+   "sdkVersion": "25.0.0",
+   "platforms": ["ios", "android"],
+   "orientation": "portrait",
+   "androidStatusBarColor": "#580e14",
+   "ios": {
+	 "bundleIdentifier": "com.crumet.khataapp"
+   },
+   "android": {
+	 "package": "com.crumet.khataapp",
+	 "versionCode": 1,
+	 "permissions": []
+   },
+   "splash": {
+	 "backgroundColor": "#e3e3e3"
+   }
   }
 }

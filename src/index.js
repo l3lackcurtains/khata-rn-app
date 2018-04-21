@@ -7,15 +7,15 @@ import { store, AppWithNavigationState, persistor } from './redux';
 
 // App theme config.
 const uiTheme = {
-  palette: {
-    primaryColor: COLOR.red500,
-  },
-  toolbar: {
-    container: {
-      height: 50,
+    palette: {
+        primaryColor: COLOR.red500,
     },
-  },
-}
+    toolbar: {
+        container: {
+            height: 50,
+        },
+    },
+};
 
 const MainApp = () => (
     <PersistGate loading={null} persistor={persistor}>
@@ -25,5 +25,5 @@ const MainApp = () => (
             </ThemeProvider>
         </Provider>
     </PersistGate>
-)
+);
 export default MainApp;
