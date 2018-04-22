@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     },
     incomeHeader: {
         flexDirection: 'column',
-        backgroundColor: '#f2f2f2',
+        backgroundColor: '#F5F2DC',
         marginHorizontal: -8,
         marginTop: -8,
         padding: 0,
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     incomeAddForm: {
         flexDirection: 'row'
@@ -120,9 +120,9 @@ class IncomeScreen extends Component {
     }
 
     onUpdateIncome = () => {
-        const { incomeAmount, incomeFrom } = this.state;
+        const { incomeAmountUpdate, incomeFromUpdate } = this.state;
         const index = this.state.currentId;
-        const query = { incomeAmount, incomeFrom, index };
+        const query = { incomeAmount: incomeAmountUpdate, incomeFrom: incomeFromUpdate, index };
         this.props.dispatch(updateIncomeReq(query));
         this.setState({
             incomeAmount: null,
@@ -240,8 +240,8 @@ class IncomeScreen extends Component {
                     onRequestClose={() => this.closeModal('updateModal')}
                     transparent
                     title="Edit Income"
-                    primaryAction={<PrimaryButton text="Update" onPress={this.onUpdateIncome} />}
-                    secondaryAction={<SecondaryButton text="Delete" onPress={this.onRemoveIncome} />}
+                    primaryAction={<PrimaryButton text="Update" onPress={this.onUpdateIncome} disabled={!this.state.incomeFromUpdate || !this.state.incomeAmountUpdate} />}
+                    secondaryAction={<SecondaryButton text="Delete" style={{ text: { color: 'red' } }} onPress={this.onRemoveIncome} />}
                 >
                     <TextField
                         name="incomeFromUpdate"
