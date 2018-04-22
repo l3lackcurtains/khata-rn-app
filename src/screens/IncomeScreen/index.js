@@ -7,7 +7,7 @@ import { PText } from '../../components/Text';
 import { PrimaryButton, SecondaryButton } from '../../components/Button';
 import { TextField } from '../../components/Input';
 import ModalBox from '../../components/ModalBox';
-import IncomingImage from '../../assets/images/incoming.png';
+import IncomingImage from '../../assets/images/income.png';
 
 import {
     addIncomeReq,
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     },
     incomeHeader: {
         flexDirection: 'column',
-        backgroundColor: '#F5F2DC',
+        backgroundColor: '#FFF3E0',
         marginHorizontal: -8,
         marginTop: -8,
         padding: 0,
@@ -103,9 +103,10 @@ class IncomeScreen extends Component {
             const query = {};
             this.props.dispatch(getIncomesReq(query));
         }
-
-        // update on changes
-        this.updateTotalAmount(nextProps.getIncomes.data);
+        if (nextProps.getIncomes.data !== null) {
+            // update on changes
+            this.updateTotalAmount(nextProps.getIncomes.data);
+        }
     }
 
     onAddIncome = () => {

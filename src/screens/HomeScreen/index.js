@@ -6,6 +6,7 @@ import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import WalletScreen from '../WalletScreen';
 import ExpenseScreen from '../ExpenseScreen';
 import IncomeScreen from '../IncomeScreen';
+import SavingScreen from '../SavingScreen';
 
 const styles = StyleSheet.create({
     main: {
@@ -21,7 +22,7 @@ class HomeScreen extends Component {
     }
 
     state = {
-        active: 'income',
+        active: 'wallet',
     }
 
     render() {
@@ -31,7 +32,8 @@ class HomeScreen extends Component {
                     this.state.active === 'wallet' ? <WalletScreen />
                         : this.state.active === 'expense' ? <ExpenseScreen />
                             : this.state.active === 'income' ? <IncomeScreen />
-                                : null
+                                : this.state.active === 'saving' ? <SavingScreen />
+                                    : null
                 }
                 <BottomNavigation
                     active={this.state.active}
@@ -63,10 +65,10 @@ class HomeScreen extends Component {
                         onPress={() => this.setState({ active: 'expense' })}
                     />
                     <BottomNavigation.Action
-                        key="savings"
+                        key="saving"
                         icon={<Entypo name="save" size={24} />}
                         label="Savings"
-                        onPress={() => this.setState({ active: 'savings' })}
+                        onPress={() => this.setState({ active: 'saving' })}
                     />
                     <BottomNavigation.Action
                         key="settings"

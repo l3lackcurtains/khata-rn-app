@@ -1,8 +1,5 @@
-import axios from 'axios';
-import { call, put, takeEvery, all } from 'redux-saga/effects';
+import { put, takeEvery } from 'redux-saga/effects';
 import { AsyncStorage } from 'react-native';
-import firebase from 'firebase';
-import md5 from 'react-native-md5';
 
 import A from '../actions/index';
 import {
