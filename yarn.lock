@@ -4888,6 +4888,10 @@ moment@2.x.x, moment@^2.10.6:
   version "2.20.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
 
+moment@^2.22.1:
+  version "2.22.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.1.tgz#529a2e9bf973f259c9643d237fda84de3a26e8ad"
+
 morgan@~1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/morgan/-/morgan-1.6.1.tgz#5fd818398c6819cba28a7cd6664f292fe1c0bbf2"
@@ -5674,6 +5678,10 @@ react-devtools-core@3.0.0:
   dependencies:
     shell-quote "^1.6.1"
     ws "^2.0.3"
+
+react-moment@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/react-moment/-/react-moment-0.7.0.tgz#9ccb5c87be683d08c253b48469167443f09c3d89"
 
 react-motion@^0.5.2:
   version "0.5.2"

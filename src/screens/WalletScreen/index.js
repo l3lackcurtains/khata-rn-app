@@ -6,11 +6,6 @@ import { Card } from 'react-native-material-ui';
 import { PText, H1Text } from '../../components/Text';
 import WalletImage from '../../assets/images/wallet.png';
 
-import { getExpensesReq } from '../../redux/actions/expenseAc';
-import { getIncomesReq } from '../../redux/actions/incomeAc';
-import { getSavingsReq } from '../../redux/actions/savingAc';
-
-
 const styles = StyleSheet.create({
     wrapper: {
         padding: 8,
@@ -48,18 +43,11 @@ class WalletScreen extends Component {
         totalWalletAmount: 0
     }
 
-    componentDidMount = async () => {
-        const query = {};
-        this.props.dispatch(getExpensesReq(query));
-        this.props.dispatch(getIncomesReq(query));
-        this.props.dispatch(getSavingsReq(query));
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.getExpenses.isReceived && nextProps.getIncomes.isReceived && nextProps.getSavings.isReceived) {
-            if (nextProps.getExpenses.data !== null && nextProps.getIncomes.data !== null && nextProps.getSavings.data !== null) {
+    componentDidMount() {
+        if (this.props.getExpenses.isReceived && this.props.getIncomes.isReceived && this.props.getSavings.isReceived) {
+            if (this.props.getExpenses.data !== null && this.props.getIncomes.data !== null && this.props.getSavings.data !== null) {
                 // update on changes
-                this.updateWalletAmount(nextProps.getIncomes.data, nextProps.getExpenses.data, nextProps.getSavings.data);
+                this.updateWalletAmount(this.props.getIncomes.data, this.props.getExpenses.data, this.props.getSavings.data);
             }
         }
     }

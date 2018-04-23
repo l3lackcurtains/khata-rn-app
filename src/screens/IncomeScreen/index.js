@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import { View, StyleSheet, Image, FlatList, Keyboard } from 'react-native';
 import { ListItem, Card } from 'react-native-material-ui';
 import { connect } from 'react-redux';
 
-import { PText } from '../../components/Text';
+import { PText, H2Text } from '../../components/Text';
 import { PrimaryButton, SecondaryButton } from '../../components/Button';
 import { TextField } from '../../components/Input';
 import ModalBox from '../../components/ModalBox';
@@ -59,14 +60,20 @@ const styles = StyleSheet.create({
         marginRight: 16
     },
     incomeTotal: {
-        fontWeight: '700',
-        fontSize: 24,
+        fontWeight: '500',
+        fontFamily: 'lato-regular',
+        fontSize: 20,
     },
     incomeList: {
         paddingHorizontal: 8,
         marginHorizontal: -8,
         padding: 0,
     },
+    incomePrice: {
+        marginRight: 16,
+        fontSize: 16,
+        fontFamily: 'lato-regular'
+    }
 });
 
 class IncomeScreen extends Component {
@@ -80,9 +87,10 @@ class IncomeScreen extends Component {
         totalAmount: 0,
     }
 
-    componentDidMount = async () => {
-        const query = {};
-        this.props.dispatch(getIncomesReq(query));
+    componentDidMount() {
+        if (this.props.getIncomes.isReceived && this.props.getIncomes.data !== null) {
+            this.updateTotalAmount(this.props.getIncomes.data);
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -103,6 +111,7 @@ class IncomeScreen extends Component {
             const query = {};
             this.props.dispatch(getIncomesReq(query));
         }
+
         if (nextProps.getIncomes.data !== null) {
             // update on changes
             this.updateTotalAmount(nextProps.getIncomes.data);
@@ -122,8 +131,8 @@ class IncomeScreen extends Component {
 
     onUpdateIncome = () => {
         const { incomeAmountUpdate, incomeFromUpdate } = this.state;
-        const index = this.state.currentId;
-        const query = { incomeAmount: incomeAmountUpdate, incomeFrom: incomeFromUpdate, index };
+        const id = this.state.currentId;
+        const query = { incomeAmount: incomeAmountUpdate, incomeFrom: incomeFromUpdate, id };
         this.props.dispatch(updateIncomeReq(query));
         this.setState({
             incomeAmount: null,
@@ -133,8 +142,8 @@ class IncomeScreen extends Component {
     }
 
     onRemoveIncome = () => {
-        const index = this.state.currentId;
-        const query = { index };
+        const id = this.state.currentId;
+        const query = { id };
         this.props.dispatch(removeIncomeReq(query));
         this.setState({
             incomeAmount: null,
@@ -155,10 +164,10 @@ class IncomeScreen extends Component {
         this.setState({ [name]: true });
     }
 
-    openUpdateModal(inco, index) {
+    openUpdateModal(inco) {
         this.setState({
             updateModal: true,
-            currentId: index,
+            currentId: inco.id,
             incomeFromUpdate: inco.incomeFrom,
             incomeAmountUpdate: inco.incomeAmount,
         });
@@ -221,15 +230,24 @@ class IncomeScreen extends Component {
                             style={styles.incomeList}
                             data={incomes.data}
                             keyExtractor={(item, index) => index}
-                            renderItem={({ item, index }) => (
+                            renderItem={({ item }) => (
                                 <Card>
                                     <ListItem
                                         divider
+                                        style={{
+                                            primaryText: {
+                                                fontFamily: 'Roboto'
+                                            },
+                                            secondaryText: {
+                                                fontFamily: 'Roboto'
+                                            }
+                                        }}
                                         centerElement={{
                                             primaryText: item.incomeFrom,
-                                            secondaryText: `Rs. ${item.incomeAmount}`,
+                                            secondaryText: `${moment(item.createdAt).calendar().split(' ')[0]} · ${moment(item.createdAt).format('dddd D MMMM, YYYY')}`
                                         }}
-                                        onPress={() => this.openUpdateModal(item, index)}
+                                        rightElement={<H2Text style={styles.incomePrice}>{`Rs. ${item.incomeAmount}`}</H2Text>}
+                                        onPress={() => this.openUpdateModal(item)}
                                     />
                                 </Card>
                             )}

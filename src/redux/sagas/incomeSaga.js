@@ -1,5 +1,7 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import { AsyncStorage } from 'react-native';
+import moment from 'moment';
+import md5 from 'react-native-md5';
 
 import A from '../actions/index';
 import {
@@ -18,14 +20,16 @@ import {
  * Get Incomes
  * *************************************
 */
-function* getIncomes(action) {
+function* getIncomes() {
     try {
         const getIncomes = yield AsyncStorage.getItem('@incomes');
         let getIncomesJSON = null;
         if (getIncomes !== null) {
             getIncomesJSON = JSON.parse(getIncomes);
         }
-        yield put(getIncomesSuccess(getIncomesJSON));
+
+        const sortedIncomeJson = getIncomesJSON.sort((left, right) => moment(right.createdAt).format('X') - moment(left.createdAt).format('X'));
+        yield put(getIncomesSuccess(sortedIncomeJson));
     } catch (error) {
         yield put(getIncomesErr(error.toString()));
     }
@@ -44,13 +48,21 @@ export function* getIncomesSaga() {
 function* addIncome(action) {
     try {
         const { incomeAmount, incomeFrom } = action.query;
-        const incomeJSON = { incomeAmount, incomeFrom };
+        const createdAt = moment().format();
+        const id = md5.hex_md5(createdAt);
+
+        const incomeJSON = {
+            incomeAmount,
+            incomeFrom,
+            createdAt,
+            id,
+        };
 
         const getIncomes = yield AsyncStorage.getItem('@incomes');
         let incomeString = '';
         if (getIncomes !== null) {
             const getIncomesJSON = JSON.parse(getIncomes);
-            getIncomesJSON.push(incomeJSON);
+            getIncomesJSON.unshift(incomeJSON);
             incomeString = JSON.stringify(getIncomesJSON);
         } else {
             incomeString = JSON.stringify([incomeJSON]);
@@ -74,11 +86,12 @@ export function* addIncomeSaga() {
 */
 
 function* removeIncome(action) {
-    const { index } = action.query;
+    const { id } = action.query;
     try {
         const getIncomes = yield AsyncStorage.getItem('@incomes');
         if (getIncomes !== null) {
             const getIncomesJSON = JSON.parse(getIncomes);
+            const index = getIncomesJSON.findIndex(o => o.id === id);
             if (index !== -1) getIncomesJSON.splice(index, 1);
             const incomeString = JSON.stringify(getIncomesJSON);
             yield AsyncStorage.setItem('@incomes', incomeString);
@@ -102,10 +115,11 @@ export function* removeIncomeSaga() {
 
 function* updateIncome(action) {
     try {
-        const { index, incomeAmount, incomeFrom } = action.query;
+        const { id, incomeAmount, incomeFrom } = action.query; 
         const getIncomes = yield AsyncStorage.getItem('@incomes');
         if (getIncomes !== null) {
             const getIncomesJSON = JSON.parse(getIncomes);
+            const index = getIncomesJSON.findIndex(o => o.id === id);
 
             getIncomesJSON[index].incomeAmount = incomeAmount;
             getIncomesJSON[index].incomeFrom = incomeFrom;
