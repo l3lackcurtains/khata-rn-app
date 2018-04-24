@@ -1,3 +1,20 @@
 {
-    "javascript.validate.enable": false
+    "extensions.ignoreRecommendations": true,
+    "files.eol": "\r",
+    "editor.fontFamily": "Operator Mono medium, monospace",
+    "editor.fontLigatures": true,
+    "editor.fontWeight": "300",
+    "workbench.colorTheme": "One Dark Rain Coat",
+    "workbench.iconTheme": "material-icon-theme",
+    "editor.tabSize": 4,
+    "editor.formatOnSave": true,
+    "[javascript]": {
+        "editor.formatOnSave": false
+    },
+    "eslint.autoFixOnSave": true,
+    "eslint.alwaysShowStatus": true,
+    "prettier.disableLanguages": [
+        "js"
+    ],
+    "files.autoSave": "onFocusChange"
 }

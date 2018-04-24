@@ -1,21 +1,15 @@
-import React, { Component } from "react";
-import { View, StyleSheet, Image, FlatList, Keyboard } from "react-native";
-import { ListItem, Card } from "react-native-material-ui";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { View, StyleSheet, Image, FlatList, Keyboard } from 'react-native';
+import { ListItem, Card } from 'react-native-material-ui';
+import { connect } from 'react-redux';
 
-import { PText } from "../../components/Text";
-import { PrimaryButton, SecondaryButton } from "../../components/Button";
-import { TextField } from "../../components/Input";
-import ModalBox from "../../components/ModalBox";
-import IncomingImage from "../../assets/images/expense.png";
+import { PText } from '../../components/Text';
+import { PrimaryButton, SecondaryButton } from '../../components/Button';
+import { TextField } from '../../components/Input';
+import ModalBox from '../../components/ModalBox';
+import IncomingImage from '../../assets/images/expense.png';
 
 import {
-
-
-
-
-
-
   addExpenseReq,
   addExpenseReset,
   getExpensesReq,
@@ -23,7 +17,7 @@ import {
   updateExpenseReset,
   removeExpenseReq,
   removeExpenseReset
-} from "../../redux/actions/expenseAc";
+} from '../../redux/actions/expenseAc';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -31,33 +25,33 @@ const styles = StyleSheet.create({
     padding: 8
   },
   expenseHeader: {
-    flexDirection: "column",
-    backgroundColor: "#FFEBEE",
+    flexDirection: 'column',
+    backgroundColor: '#FFEBEE',
     marginHorizontal: -8,
     marginTop: -8,
     padding: 0,
     borderBottomWidth: 1,
-    borderColor: "#e2e2e2"
+    borderColor: '#e2e2e2'
   },
   expenseInfo: {
-    flexDirection: "row",
+    flexDirection: 'row',
 
-    alignItems: "center"
+    alignItems: 'center'
   },
   expenseCard: {
     marginHorizontal: -8,
     marginTop: -8,
     paddingHorizontal: 16,
     paddingVertical: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   expenseAddForm: {
-    flexDirection: "row"
+    flexDirection: 'row'
   },
   expenseAddFormField: {
-    width: "50%",
+    width: '50%',
     padding: 8
   },
   expenseImage: {
@@ -66,7 +60,7 @@ const styles = StyleSheet.create({
     marginRight: 16
   },
   expenseTotal: {
-    fontWeight: "700",
+    fontWeight: '700',
     fontSize: 24
   },
   expenseList: {
@@ -118,7 +112,10 @@ class ExpenseScreen extends Component {
 
   onAddExpense = () => {
     const { expenseAmount, expenseFrom } = this.state;
-    const query = { expenseAmount, expenseFrom };
+    const query = {
+      expenseAmount,
+      expenseFrom
+    };
     this.props.dispatch(addExpenseReq(query));
     this.setState({
       expenseAmount: null,
@@ -140,18 +137,20 @@ class ExpenseScreen extends Component {
       expenseAmount: null,
       expenseFrom: null
     });
-    this.closeModal("updateModal");
+    this.closeModal('updateModal');
   };
 
   onRemoveExpense = () => {
     const index = this.state.currentId;
-    const query = { index };
+    const query = {
+      index
+    };
     this.props.dispatch(removeExpenseReq(query));
     this.setState({
       expenseAmount: null,
       expenseFrom: null
     });
-    this.closeModal("updateModal");
+    this.closeModal('updateModal');
   };
 
   // Change field helper
@@ -163,7 +162,9 @@ class ExpenseScreen extends Component {
 
   // Modal helper
   openModal(name) {
-    this.setState({ [name]: true });
+    this.setState({
+      [name]: true
+    });
   }
 
   openUpdateModal(exp, index) {
@@ -185,11 +186,10 @@ class ExpenseScreen extends Component {
   }
 
   updateTotalAmount = arr => {
-    const totalAmount = arr.reduce(
-      (acc, curr) => acc + parseInt(curr.expenseAmount, 10),
-      0
-    );
-    this.setState({ totalAmount });
+    const totalAmount = arr.reduce((acc, curr) => acc + parseInt(curr.expenseAmount, 10), 0);
+    this.setState({
+      totalAmount
+    });
   };
 
   render() {
@@ -204,7 +204,7 @@ class ExpenseScreen extends Component {
               name="expenseFrom"
               label="Expense on"
               value={this.state.expenseFrom}
-              onChangeText={value => this.onChangeField("expenseFrom", value)}
+              onChangeText={value => this.onChangeField('expenseFrom', value)}
             />
             <TextField
               style={styles.expenseAddFormField}
@@ -212,7 +212,7 @@ class ExpenseScreen extends Component {
               label="Amount"
               keyboardType="phone-pad"
               value={this.state.expenseAmount}
-              onChangeText={value => this.onChangeField("expenseAmount", value)}
+              onChangeText={value => this.onChangeField('expenseAmount', value)}
             />
           </View>
           <View style={styles.expenseCard}>
@@ -253,22 +253,24 @@ class ExpenseScreen extends Component {
         <ModalBox
           visible={this.state.updateModal}
           animationType="fade"
-          onRequestClose={() => this.closeModal("updateModal")}
+          onRequestClose={() => this.closeModal('updateModal')}
           transparent
           title="Edit Expense"
           primaryAction={
             <PrimaryButton
               text="Update"
               onPress={this.onUpdateExpense}
-              disabled={
-                !this.state.expenseFromUpdate || !this.state.expenseAmountUpdate
-              }
+              disabled={!this.state.expenseFromUpdate || !this.state.expenseAmountUpdate}
             />
           }
           secondaryAction={
             <SecondaryButton
               text="Delete"
-              style={{ text: { color: "red" } }}
+              style={{
+                text: {
+                  color: 'red'
+                }
+              }}
               onPress={this.onRemoveExpense}
             />
           }
@@ -277,18 +279,14 @@ class ExpenseScreen extends Component {
             name="expenseFromUpdate"
             label="Expense From"
             value={this.state.expenseFromUpdate}
-            onChangeText={value =>
-              this.onChangeField("expenseFromUpdate", value)
-            }
+            onChangeText={value => this.onChangeField('expenseFromUpdate', value)}
           />
           <TextField
             name="expenseAmountUpdate"
             label="Amount"
             keyboardType="phone-pad"
             value={this.state.expenseAmountUpdate}
-            onChangeText={value =>
-              this.onChangeField("expenseAmountUpdate", value)
-            }
+            onChangeText={value => this.onChangeField('expenseAmountUpdate', value)}
           />
         </ModalBox>
       </View>

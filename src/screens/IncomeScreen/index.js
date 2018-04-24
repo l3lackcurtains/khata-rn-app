@@ -88,10 +88,7 @@ class IncomeScreen extends Component {
   };
 
   componentDidMount = () => {
-    if (
-      this.props.getIncomes.isReceived &&
-      this.props.getIncomes.data !== null
-    ) {
+    if (this.props.getIncomes.isReceived && this.props.getIncomes.data !== null) {
       this.updateTotalAmount(this.props.getIncomes.data);
     }
   };
@@ -190,10 +187,7 @@ class IncomeScreen extends Component {
   }
 
   updateTotalAmount = arr => {
-    const totalAmount = arr.reduce(
-      (acc, curr) => acc + parseInt(curr.incomeAmount, 10),
-      0
-    );
+    const totalAmount = arr.reduce((acc, curr) => acc + parseInt(curr.incomeAmount, 10), 0);
     this.setState({ totalAmount });
   };
 
@@ -224,9 +218,7 @@ class IncomeScreen extends Component {
           <View style={styles.incomeCard}>
             <View style={styles.incomeInfo}>
               <Image style={styles.incomeImage} source={IncomingImage} />
-              <PText
-                style={styles.incomeTotal}
-              >{`${currencyCode} ${totalAmount}`}</PText>
+              <PText style={styles.incomeTotal}>{`${currencyCode} ${totalAmount}`}</PText>
             </View>
             <View>
               <PrimaryButton
@@ -258,11 +250,9 @@ class IncomeScreen extends Component {
                   }}
                   centerElement={{
                     primaryText: item.incomeFrom,
-                    secondaryText: `${moment(
+                    secondaryText: `${moment(item.createdAt).calendar()} · ${moment(
                       item.createdAt
-                    ).calendar()} · ${moment(item.createdAt).format(
-                      'D MMMM, YYYY'
-                    )}`
+                    ).format('D MMMM, YYYY')}`
                   }}
                   rightElement={
                     <H2Text style={styles.incomePrice}>{`${currencyCode} ${
@@ -285,9 +275,7 @@ class IncomeScreen extends Component {
             <PrimaryButton
               text="Update"
               onPress={this.onUpdateIncome}
-              disabled={
-                !this.state.incomeFromUpdate || !this.state.incomeAmountUpdate
-              }
+              disabled={!this.state.incomeFromUpdate || !this.state.incomeAmountUpdate}
             />
           }
           secondaryAction={
@@ -302,18 +290,14 @@ class IncomeScreen extends Component {
             name="incomeFromUpdate"
             label="Income From"
             value={this.state.incomeFromUpdate}
-            onChangeText={value =>
-              this.onChangeField('incomeFromUpdate', value)
-            }
+            onChangeText={value => this.onChangeField('incomeFromUpdate', value)}
           />
           <TextField
             name="incomeAmountUpdate"
             label="Amount"
             keyboardType="phone-pad"
             value={this.state.incomeAmountUpdate}
-            onChangeText={value =>
-              this.onChangeField('incomeAmountUpdate', value)
-            }
+            onChangeText={value => this.onChangeField('incomeAmountUpdate', value)}
           />
         </ModalBox>
       </View>

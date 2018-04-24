@@ -8,73 +8,59 @@ import { Motion, spring } from 'react-motion';
 import { PText } from '../../components/Text';
 
 const styles = StyleSheet.create({
-    modalView: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0,0.8)',
-    },
-    dialogBox: {
-        alignSelf: 'center',
-        width: '92%',
-        marginLeft: -1000,
-    },
-    dialogBoxTitle: {
-        padding: 16,
-        backgroundColor: '#e5f6c1',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    dialogBoxContent: {
-        padding: 16,
-    },
-    actionButtons: {
-        justifyContent: 'space-between',
-        flexDirection: 'row'
-    }
+  modalView: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.8)'
+  },
+  dialogBox: {
+    alignSelf: 'center',
+    width: '92%',
+    marginLeft: -1000
+  },
+  dialogBoxTitle: {
+    padding: 16,
+    backgroundColor: '#e5f6c1',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  dialogBoxContent: {
+    padding: 16
+  },
+  actionButtons: {
+    justifyContent: 'space-between',
+    flexDirection: 'row'
+  }
 });
 
-const ModalBox = (props) => {
-    const {
-        children,
-        title,
-        action,
-        primaryAction,
-        secondaryAction,
-        visible,
-        ...otherProps
-    } = props;
-    if (!visible) return <View />;
-    return (
-        <Modal
-            {...otherProps}
-        >
-            <TouchableOpacity
-                style={styles.modalView}
-                onPress={otherProps.onRequestClose}
-            >
-                <Motion defaultStyle={{ marginLeft: 1000 }} style={{ marginLeft: spring(0) }}>
-                    {
-                        ({ marginLeft }) =>
-                            (<Card style={{ container: { ...StyleSheet.flatten([styles.dialogBox]), marginLeft } }}>
-                                <View style={styles.dialogBoxTitle}>
-                                    <PText>{title}</PText>
-                                    <MaterialIcons name="close" size={24} onPress={otherProps.onRequestClose} />
-                                </View>
-                                <View style={styles.dialogBoxContent}>
-                                    {children}
-                                    <View style={styles.actionButtons}>
-                                        {!!secondaryAction && secondaryAction}
-                                        {!!primaryAction && primaryAction}
-                                    </View>
-                                </View>
-                            </Card>)
-                    }
-                </Motion>
-            </TouchableOpacity>
-        </Modal>
-    );
+const ModalBox = props => {
+  const { children, title, action, primaryAction, secondaryAction, visible, ...otherProps } = props;
+  if (!visible) return <View />;
+  return (
+    <Modal {...otherProps}>
+      <TouchableOpacity style={styles.modalView} onPress={otherProps.onRequestClose}>
+        <Motion defaultStyle={{ marginLeft: 1000 }} style={{ marginLeft: spring(0) }}>
+          {({ marginLeft }) => (
+            <Card style={{ container: { ...StyleSheet.flatten([styles.dialogBox]), marginLeft } }}>
+              <View style={styles.dialogBoxTitle}>
+                <PText>{title}</PText>
+                <MaterialIcons name="close" size={24} onPress={otherProps.onRequestClose} />
+              </View>
+              <View style={styles.dialogBoxContent}>
+                {children}
+                <View style={styles.actionButtons}>
+                  {!!secondaryAction && secondaryAction}
+                  {!!primaryAction && primaryAction}
+                </View>
+              </View>
+            </Card>
+          )}
+        </Motion>
+      </TouchableOpacity>
+    </Modal>
+  );
 };
 export default ModalBox;

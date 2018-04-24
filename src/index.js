@@ -22,8 +22,8 @@ class MainApp extends Component {
   async componentDidMount() {
     /* eslint-disable */
     await Font.loadAsync({
-      "cabin-regular": require("./assets/fonts/Cabin-Regular.ttf"),
-      "lato-regular": require("./assets/fonts/Lato-Regular.ttf")
+      'cabin-regular': require('./assets/fonts/Cabin-Regular.ttf'),
+      'lato-regular': require('./assets/fonts/Lato-Regular.ttf')
     });
 
     this.setState({ fontLoaded: true });

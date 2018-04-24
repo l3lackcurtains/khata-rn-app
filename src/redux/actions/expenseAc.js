@@ -6,22 +6,22 @@ import A from './index';
  * *************************************
 */
 export const getExpensesReq = query => ({
-    type: A.REQ_EXPENSES,
-    query,
+  type: A.REQ_EXPENSES,
+  query
 });
 
 export const getExpensesSuccess = data => ({
-    type: A.REC_EXPENSES,
-    data,
+  type: A.REC_EXPENSES,
+  data
 });
 
 export const getExpensesErr = data => ({
-    type: A.REC_EXPENSES_ERR,
-    data,
+  type: A.REC_EXPENSES_ERR,
+  data
 });
 
 export const getExpensesReset = () => ({
-    type: A.RESET_EXPENSES,
+  type: A.RESET_EXPENSES
 });
 
 /*
@@ -30,22 +30,22 @@ export const getExpensesReset = () => ({
  * *************************************
 */
 export const addExpenseReq = query => ({
-    type: A.REQ_ADD_EXPENSE,
-    query,
+  type: A.REQ_ADD_EXPENSE,
+  query
 });
 
 export const addExpenseSuccess = data => ({
-    type: A.REC_ADD_EXPENSE,
-    data,
+  type: A.REC_ADD_EXPENSE,
+  data
 });
 
 export const addExpenseErr = data => ({
-    type: A.REC_ADD_EXPENSE_ERR,
-    data,
+  type: A.REC_ADD_EXPENSE_ERR,
+  data
 });
 
 export const addExpenseReset = () => ({
-    type: A.RESET_ADD_EXPENSE,
+  type: A.RESET_ADD_EXPENSE
 });
 
 /*
@@ -54,22 +54,22 @@ export const addExpenseReset = () => ({
  * *************************************
 */
 export const removeExpenseReq = query => ({
-    type: A.REQ_REMOVE_EXPENSE,
-    query
+  type: A.REQ_REMOVE_EXPENSE,
+  query
 });
 
 export const removeExpenseSuccess = data => ({
-    type: A.REC_REMOVE_EXPENSE,
-    data,
+  type: A.REC_REMOVE_EXPENSE,
+  data
 });
 
 export const removeExpenseErr = data => ({
-    type: A.REC_REMOVE_EXPENSE_ERR,
-    data,
+  type: A.REC_REMOVE_EXPENSE_ERR,
+  data
 });
 
 export const removeExpenseReset = () => ({
-    type: A.RESET_REMOVE_EXPENSE,
+  type: A.RESET_REMOVE_EXPENSE
 });
 
 /*
@@ -78,20 +78,20 @@ export const removeExpenseReset = () => ({
  * *************************************
 */
 export const updateExpenseReq = query => ({
-    type: A.REQ_UPDATE_EXPENSE,
-    query,
+  type: A.REQ_UPDATE_EXPENSE,
+  query
 });
 
 export const updateExpenseSuccess = data => ({
-    type: A.REC_UPDATE_EXPENSE,
-    data,
+  type: A.REC_UPDATE_EXPENSE,
+  data
 });
 
 export const updateExpenseErr = data => ({
-    type: A.REC_UPDATE_EXPENSE_ERR,
-    data,
+  type: A.REC_UPDATE_EXPENSE_ERR,
+  data
 });
 
 export const updateExpenseReset = () => ({
-    type: A.RESET_UPDATE_EXPENSE,
+  type: A.RESET_UPDATE_EXPENSE
 });

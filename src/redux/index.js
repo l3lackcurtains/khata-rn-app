@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { BackHandler, AsyncStorage, View } from 'react-native';
+import { BackHandler, AsyncStorage } from 'react-native';
 import { addNavigationHelpers, NavigationActions } from 'react-navigation';
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { connect } from 'react-redux';
@@ -15,47 +15,44 @@ import { getSettingsReq } from './actions/settingAc';
 
 // flow types
 type Props = {
-    dispatch: Function,
-    nav: Object,
+  dispatch: Function,
+  nav: Object
 };
 
 // Saga Middleware
 const sagaMiddleware = createSagaMiddleware();
 
 const firebaseConfig = {
-    apiKey: 'AIzaSyBxqJw-nOKP8KsCWFk4nZqsQQuEZGpx5fs',
-    authDomain: 'khataapp-92a39.firebaseapp.com',
-    databaseURL: 'https://khataapp-92a39.firebaseio.com/',
-    storageBucket: 'gs://khataapp-92a39.appspot.com/'
+  apiKey: 'AIzaSyBxqJw-nOKP8KsCWFk4nZqsQQuEZGpx5fs',
+  authDomain: 'khataapp-92a39.firebaseapp.com',
+  databaseURL: 'https://khataapp-92a39.firebaseio.com/',
+  storageBucket: 'gs://khataapp-92a39.appspot.com/'
 };
 
 if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfig);
 }
 
 const middlewares = [sagaMiddleware];
 
 const navReducer = (state, action) => {
-    const nextState = AppNavigator.router.getStateForAction(action, state);
-    return nextState || state;
+  const nextState = AppNavigator.router.getStateForAction(action, state);
+  return nextState || state;
 };
 
 const persistConfig = {
-    key: 'root',
-    storage: AsyncStorage,
+  key: 'root',
+  storage: AsyncStorage
 };
 
 const appReducer = combineReducers({
-    ...rootReducers,
-    nav: navReducer,
+  ...rootReducers,
+  nav: navReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, appReducer);
 
-const store = createStore(
-    persistedReducer,
-    applyMiddleware(...middlewares),
-);
+const store = createStore(persistedReducer, applyMiddleware(...middlewares));
 
 const persistor = persistStore(store);
 
@@ -63,37 +60,37 @@ const persistor = persistStore(store);
 sagaMiddleware.run(rootSagas);
 
 class ReduxNavigation extends Component<Props> {
-    componentDidMount() {
-        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
 
-        // Dispatch the settings
-        const query = {};
-        this.props.dispatch(getSettingsReq(query));
+    // Dispatch the settings
+    const query = {};
+    this.props.dispatch(getSettingsReq(query));
+  }
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+  }
+  onBackPress = () => {
+    const { dispatch, nav } = this.props;
+    if (nav.index === 0) {
+      return false;
     }
-    componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
-    }
-    onBackPress = () => {
-        const { dispatch, nav } = this.props;
-        if (nav.index === 0) {
-            return false;
-        }
-        dispatch(NavigationActions.back());
-        return true;
-    };
+    dispatch(NavigationActions.back());
+    return true;
+  };
 
-    render() {
-        const { dispatch, nav } = this.props;
-        const navigation = addNavigationHelpers({
-            dispatch,
-            state: nav
-        });
-        return <AppNavigator navigation={navigation} />;
-    }
+  render() {
+    const { dispatch, nav } = this.props;
+    const navigation = addNavigationHelpers({
+      dispatch,
+      state: nav
+    });
+    return <AppNavigator navigation={navigation} />;
+  }
 }
 
 const mapStateToProps = state => ({
-    nav: state.nav
+  nav: state.nav
 });
 
 const AppWithNavigationState = connect(mapStateToProps)(ReduxNavigation);

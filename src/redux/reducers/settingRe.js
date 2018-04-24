@@ -1,10 +1,10 @@
 import A from '../actions/index';
 
 const initState = {
-    isReceived: false,
-    data: {},
-    error: false,
-    isLoading: false,
+  isReceived: false,
+  data: {},
+  error: false,
+  isLoading: false
 };
 
 /*
@@ -13,37 +13,37 @@ const initState = {
  * *************************************
 */
 const getSettingsRe = (state = initState, action) => {
-    switch (action.type) {
+  switch (action.type) {
     case A.REQ_SETTINGS:
-        return {
-            ...state,
-            isReceived: false,
-            isLoading: true,
-        };
+      return {
+        ...state,
+        isReceived: false,
+        isLoading: true
+      };
     case A.REC_SETTINGS:
-        return {
-            ...state,
-            isReceived: true,
-            data: action.data,
-            isLoading: false,
-        };
+      return {
+        ...state,
+        isReceived: true,
+        data: action.data,
+        isLoading: false
+      };
     case A.REC_SETTINGS_ERR:
-        return {
-            ...state,
-            error: true,
-            data: action.data,
-            isLoading: false,
-        };
+      return {
+        ...state,
+        error: true,
+        data: action.data,
+        isLoading: false
+      };
     case A.RESET_SETTINGS:
-        return {
-            isReceived: false,
-            data: {},
-            error: false,
-            isLoading: false,
-        };
+      return {
+        isReceived: false,
+        data: {},
+        error: false,
+        isLoading: false
+      };
     default:
-        return state;
-    }
+      return state;
+  }
 };
 
 /*
@@ -52,40 +52,40 @@ const getSettingsRe = (state = initState, action) => {
  * *************************************
 */
 const updateSettingRe = (state = initState, action) => {
-    switch (action.type) {
+  switch (action.type) {
     case A.REQ_UPDATE_SETTING:
-        return {
-            ...state,
-            isReceived: false,
-            isLoading: true,
-        };
+      return {
+        ...state,
+        isReceived: false,
+        isLoading: true
+      };
     case A.REC_UPDATE_SETTING:
-        return {
-            ...state,
-            isReceived: true,
-            data: action.data,
-            isLoading: false,
-        };
+      return {
+        ...state,
+        isReceived: true,
+        data: action.data,
+        isLoading: false
+      };
     case A.REC_UPDATE_SETTING_ERR:
-        return {
-            ...state,
-            error: true,
-            data: action.data,
-            isLoading: false,
-        };
+      return {
+        ...state,
+        error: true,
+        data: action.data,
+        isLoading: false
+      };
     case A.RESET_UPDATE_SETTING:
-        return {
-            isReceived: false,
-            data: {},
-            error: false,
-            isLoading: false,
-        };
+      return {
+        isReceived: false,
+        data: {},
+        error: false,
+        isLoading: false
+      };
     default:
-        return state;
-    }
+      return state;
+  }
 };
 
 export default {
-    getSettings: getSettingsRe,
-    updateSetting: updateSettingRe
+  getSettings: getSettingsRe,
+  updateSetting: updateSettingRe
 };

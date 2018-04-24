@@ -4,20 +4,20 @@ import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 
 const AppNavigator = StackNavigator(
-    {
-        Home: {
-            screen: HomeScreen,
-        },
-        Login: {
-            screen: LoginScreen
-        },
-        Register: {
-            screen: RegisterScreen
-        }
+  {
+    Home: {
+      screen: HomeScreen
     },
-    {
-        initialRouteName: 'Home',
+    Login: {
+      screen: LoginScreen
+    },
+    Register: {
+      screen: RegisterScreen
     }
+  },
+  {
+    initialRouteName: 'Home'
+  }
 );
 
 export default AppNavigator;

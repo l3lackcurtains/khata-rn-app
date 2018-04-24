@@ -5,9 +5,7 @@
   "rules": {
     "comma-dangle": 0,
     "semi": 1,
-    "no-tabs": 0,
     "no-console": 0,
-    "no-shadow": 0,
     "react/jsx-filename-extension": [
       1,
       {
@@ -19,13 +17,6 @@
     "react/jsx-indent-props": 0,
     "no-nested-ternary": 0,
     "react/prop-types": 0,
-    "import/no-unresolved": 0,
-    "prettier/prettier": [
-      "error",
-      {
-        "singleQuote": true,
-        "parser": "flow"
-      }
-    ]
+    "import/no-unresolved": 0
   }
 }

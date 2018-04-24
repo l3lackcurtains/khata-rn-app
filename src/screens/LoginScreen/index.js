@@ -35,10 +35,7 @@ class LoginScreen extends Component {
   };
   render() {
     return (
-      <LinearGradient
-        style={styles.screen}
-        colors={['#4c669f', '#3b5998', '#192f6a']}
-      >
+      <LinearGradient style={styles.screen} colors={['#4c669f', '#3b5998', '#192f6a']}>
         <Card>
           <View style={styles.cardStyle}>
             <TextField label="Email" keyboardType="email-address" />
