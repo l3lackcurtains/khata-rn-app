@@ -104,5 +104,5 @@ class HomeScreen extends Component {
 export default connect(state => ({
     getExpenses: state.getExpenses,
     getIncomes: state.getIncomes,
-    getSavings: state.getSavings
+    getSavings: state.getSavings,
 }))(HomeScreen);

@@ -87,7 +87,7 @@ class IncomeScreen extends Component {
         totalAmount: 0,
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
         if (this.props.getIncomes.isReceived && this.props.getIncomes.data !== null) {
             this.updateTotalAmount(this.props.getIncomes.data);
         }
@@ -190,6 +190,7 @@ class IncomeScreen extends Component {
     render() {
         const incomes = this.props.getIncomes;
         const { totalAmount } = this.state;
+        const { currencyCode } = this.props.getSettings.data;
         return (
             <View style={styles.wrapper}>
                 <View style={styles.incomeHeader}>
@@ -213,7 +214,7 @@ class IncomeScreen extends Component {
                     <View style={styles.incomeCard}>
                         <View style={styles.incomeInfo}>
                             <Image style={styles.incomeImage} source={IncomingImage} />
-                            <PText style={styles.incomeTotal}>Rs. {totalAmount}</PText>
+                            <PText style={styles.incomeTotal}>{`${currencyCode} ${totalAmount}`}</PText>
                         </View>
                         <View>
                             <PrimaryButton
@@ -244,9 +245,9 @@ class IncomeScreen extends Component {
                                         }}
                                         centerElement={{
                                             primaryText: item.incomeFrom,
-                                            secondaryText: `${moment(item.createdAt).calendar().split(' ')[0]} · ${moment(item.createdAt).format('dddd D MMMM, YYYY')}`
+                                            secondaryText: `${moment(item.createdAt).calendar()} · ${moment(item.createdAt).format('D MMMM, YYYY')}`
                                         }}
-                                        rightElement={<H2Text style={styles.incomePrice}>{`Rs. ${item.incomeAmount}`}</H2Text>}
+                                        rightElement={<H2Text style={styles.incomePrice}>{`${currencyCode} ${item.incomeAmount}`}</H2Text>}
                                         onPress={() => this.openUpdateModal(item)}
                                     />
                                 </Card>
@@ -286,4 +287,5 @@ export default connect(state => ({
     getIncomes: state.getIncomes,
     removeIncome: state.removeIncome,
     updateIncome: state.updateIncome,
+    getSettings: state.getSettings
 }))(IncomeScreen);

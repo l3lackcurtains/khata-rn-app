@@ -44,10 +44,18 @@ class WalletScreen extends Component {
     }
 
     componentDidMount() {
-        if (this.props.getExpenses.isReceived && this.props.getIncomes.isReceived && this.props.getSavings.isReceived) {
-            if (this.props.getExpenses.data !== null && this.props.getIncomes.data !== null && this.props.getSavings.data !== null) {
+        if (this.props.getExpenses.isReceived &&
+            this.props.getIncomes.isReceived &&
+            this.props.getSavings.isReceived) {
+            if (this.props.getExpenses.data !== null &&
+                this.props.getIncomes.data !== null &&
+                this.props.getSavings.data !== null) {
                 // update on changes
-                this.updateWalletAmount(this.props.getIncomes.data, this.props.getExpenses.data, this.props.getSavings.data);
+                this.updateWalletAmount(
+                    this.props.getIncomes.data,
+                    this.props.getExpenses.data,
+                    this.props.getSavings.data
+                );
             }
         }
     }
@@ -71,6 +79,7 @@ class WalletScreen extends Component {
     }
 
     render() {
+        const { currencyCode } = this.props.getSettings.data;
         return (
             <View style={styles.wrapper}>
                 <View style={styles.oneBox}>
@@ -79,7 +88,7 @@ class WalletScreen extends Component {
                             <Image style={styles.walletImage} source={WalletImage} />
                             <View>
                                 <PText>You have</PText>
-                                <H1Text>Rs. {this.state.totalWalletAmount}</H1Text>
+                                <H1Text>{`${currencyCode} ${this.state.totalWalletAmount}`}</H1Text>
                                 <PText>in your wallet.</PText>
                             </View>
                         </View>
@@ -90,7 +99,7 @@ class WalletScreen extends Component {
                     <Card style={{ container: styles.incomeCard }}>
                         <View style={styles.walletCard}>
                             <View>
-                                <H1Text>Rs. {this.state.totalIncomesAmount}</H1Text>
+                                <H1Text>{`${currencyCode} ${this.state.totalIncomesAmount}`}</H1Text>
                                 <PText>Incomes</PText>
                             </View>
                         </View>
@@ -101,7 +110,7 @@ class WalletScreen extends Component {
                     <Card style={{ container: styles.expenseCard }}>
                         <View style={styles.walletCard}>
                             <View>
-                                <H1Text>Rs. {this.state.totalExpensesAmount}</H1Text>
+                                <H1Text>{`${currencyCode} ${this.state.totalExpensesAmount}`}</H1Text>
                                 <PText>Expenses</PText>
                             </View>
                         </View>
@@ -110,7 +119,7 @@ class WalletScreen extends Component {
                     <Card style={{ container: styles.savingCard }}>
                         <View style={styles.walletCard}>
                             <View>
-                                <H1Text>Rs. {this.state.totalSavingsAmount}</H1Text>
+                                <H1Text>{`${currencyCode} ${this.state.totalSavingsAmount}`}</H1Text>
                                 <PText>Savings</PText>
                             </View>
                         </View>
@@ -124,5 +133,6 @@ class WalletScreen extends Component {
 export default connect(state => ({
     getExpenses: state.getExpenses,
     getIncomes: state.getIncomes,
-    getSavings: state.getSavings
+    getSavings: state.getSavings,
+    getSettings: state.getSettings
 }))(WalletScreen);

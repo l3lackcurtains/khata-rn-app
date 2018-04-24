@@ -1,19 +1,37 @@
 {
-    "extends": "airbnb",
-    "parser": "babel-eslint",
-    "plugins": ["react", "jsx-a11y", "import"],
-    "rules": {
-          "comma-dangle": 0,
-          "semi": 1,
-          "no-tabs": 0,
-          "no-console": 0,
-          "indent": [2, 4],
-          "no-shadow": 0,
-          "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-          "react/jsx-indent": 0,
-          "linebreak-style": 0,
-          "react/jsx-indent-props": 0,
-          "no-nested-ternary": 0,
-          "react/prop-types": 0
+  "extends": [
+    "airbnb",
+  ],
+  "parser": "babel-eslint",
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "import",
+  ],
+  "rules": {
+    "comma-dangle": 0,
+    "semi": 1,
+    "no-tabs": 0,
+    "no-console": 0,
+    "indent": [
+      2,
+      4
+    ],
+    "no-shadow": 0,
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
       }
+    ],
+    "react/jsx-indent": 0,
+    "linebreak-style": 0,
+    "react/jsx-indent-props": 0,
+    "no-nested-ternary": 0,
+    "react/prop-types": 0,
+    "import/no-unresolved": 0
   }
+}

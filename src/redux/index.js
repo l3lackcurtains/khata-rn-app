@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { BackHandler, AsyncStorage } from 'react-native';
+import { BackHandler, AsyncStorage, View } from 'react-native';
 import { addNavigationHelpers, NavigationActions } from 'react-navigation';
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { connect } from 'react-redux';
@@ -11,11 +11,12 @@ import createSagaMiddleware from 'redux-saga';
 import rootSagas from './sagas';
 import rootReducers from '../redux/reducers';
 import AppNavigator from './AppNavigator';
+import { getSettingsReq } from './actions/settingAc';
 
 // flow types
 type Props = {
-  dispatch: Function,
-  nav: Object,
+    dispatch: Function,
+    nav: Object,
 };
 
 // Saga Middleware
@@ -64,28 +65,31 @@ sagaMiddleware.run(rootSagas);
 class ReduxNavigation extends Component<Props> {
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+
+        // Dispatch the settings
+        const query = {};
+        this.props.dispatch(getSettingsReq(query));
     }
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
     }
-  onBackPress = () => {
-      const { dispatch, nav } = this.props;
-      if (nav.index === 0) {
-          return false;
-      }
-      dispatch(NavigationActions.back());
-      return true;
-  };
+    onBackPress = () => {
+        const { dispatch, nav } = this.props;
+        if (nav.index === 0) {
+            return false;
+        }
+        dispatch(NavigationActions.back());
+        return true;
+    };
 
-  render() {
-      const { dispatch, nav } = this.props;
-      const navigation = addNavigationHelpers({
-          dispatch,
-          state: nav
-      });
-
-      return <AppNavigator navigation={navigation} />;
-  }
+    render() {
+        const { dispatch, nav } = this.props;
+        const navigation = addNavigationHelpers({
+            dispatch,
+            state: nav
+        });
+        return <AppNavigator navigation={navigation} />;
+    }
 }
 
 const mapStateToProps = state => ({

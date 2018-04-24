@@ -21,6 +21,11 @@ import {
     updateSavingSaga
 } from './savingSaga';
 
+import {
+    getSettingsSaga,
+    updateSettingSaga
+} from './settingSaga';
+
 // Yield all sagas
 export default function* rootSagas() {
     yield all([
@@ -41,5 +46,9 @@ export default function* rootSagas() {
         addSavingSaga(),
         removeSavingSaga(),
         updateSavingSaga(),
+
+        // setting
+        getSettingsSaga(),
+        updateSettingSaga()
     ]);
 }
