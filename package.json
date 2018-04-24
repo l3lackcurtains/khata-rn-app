@@ -6,11 +6,15 @@
     "babel-eslint": "^8.2.1",
     "eslint": "^4.16.0",
     "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.6.1",
     "flow-bin": "^0.56.0",
     "jest-expo": "25.0.0",
+    "prettier": "^1.12.1",
+    "pretty-quick": "^1.4.1",
     "react-native-scripts": "1.11.1",
     "react-test-renderer": "16.2.0"
   },
@@ -22,7 +26,8 @@
     "ios": "react-native-scripts ios",
     "test": "node node_modules/jest/bin/jest.js",
     "lint": "eslint src/",
-    "flow": "flow"
+    "flow": "flow",
+    "precommit": "pretty-quick --stage"
   },
   "jest": {
     "preset": "jest-expo"
