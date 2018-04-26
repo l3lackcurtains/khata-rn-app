@@ -20,6 +20,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     paddingBottom: 48,
     backgroundColor: '#FAFAFA'
+  },
+  BottomNavigation: {
+    width: '100%',
+    position: 'absolute',
+    bottom: 0
   }
 });
 
@@ -43,7 +48,7 @@ class HomeScreen extends Component {
   };
 
   render() {
-    const { getExpenses, getIncomes, getSavings } = this.props;
+    const { getExpenses, getIncomes, getSavings, darkTheme } = this.props;
     return (
       <View style={styles.main}>
         {this.state.active === 'wallet' ? (
@@ -61,11 +66,7 @@ class HomeScreen extends Component {
           active={this.state.active}
           hidden={false}
           style={{
-            container: {
-              width: '100%',
-              position: 'absolute',
-              bottom: 0
-            }
+            container: styles.BottomNavigation
           }}
         >
           <BottomNavigation.Action
@@ -107,5 +108,6 @@ class HomeScreen extends Component {
 export default connect(state => ({
   getExpenses: state.getExpenses,
   getIncomes: state.getIncomes,
-  getSavings: state.getSavings
+  getSavings: state.getSavings,
+  darkTheme: state.getSettings.data.theme === 'dark'
 }))(HomeScreen);

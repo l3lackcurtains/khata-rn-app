@@ -12,6 +12,7 @@ const initState = {
  * Expenses reducer
  * *************************************
 */
+
 const getExpensesRe = (state = initState, action) => {
   switch (action.type) {
     case A.REQ_EXPENSES:

@@ -17,13 +17,14 @@ import {
 function* getSettings() {
   try {
     // AsyncStorage.removeItem('@settings');
-    const getSettings = yield AsyncStorage.getItem('@settings');
+    const getSettingsValue = yield AsyncStorage.getItem('@settings');
     let getSettingsJSON = null;
-    if (getSettings !== null) {
-      getSettingsJSON = JSON.parse(getSettings);
+    if (getSettingsValue !== null) {
+      getSettingsJSON = JSON.parse(getSettingsValue);
     } else {
       getSettingsJSON = {
-        currencyCode: 'Rs.'
+        currencyCode: 'Rs.',
+        theme: 'light'
       };
       const settingString = JSON.stringify(getSettingsJSON);
       yield AsyncStorage.setItem('@settings', settingString);
@@ -46,9 +47,9 @@ export function* getSettingsSaga() {
 function* updateSetting(action) {
   const { query } = action;
   try {
-    const getSettings = yield AsyncStorage.getItem('@settings');
-    if (getSettings !== null) {
-      let getSettingsJSON = JSON.parse(getSettings);
+    const getSettingsValue = yield AsyncStorage.getItem('@settings');
+    if (getSettingsValue !== null) {
+      let getSettingsJSON = JSON.parse(getSettingsValue);
 
       getSettingsJSON = { ...getSettingsJSON, ...query };
 
