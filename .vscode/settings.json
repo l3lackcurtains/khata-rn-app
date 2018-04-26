@@ -16,5 +16,6 @@
     "prettier.disableLanguages": [
         "js"
     ],
-    "files.autoSave": "onFocusChange"
+    "files.autoSave": "onFocusChange",
+    "git.ignoreLimitWarning": true
 }

@@ -48,9 +48,9 @@ Open it in the [Expo app](https://expo.io) on your phone to view it. It will rel
 Sometimes you may need to reset or clear the React Native packager's cache. To do so, you can pass the `--reset-cache` flag to the start script:
 
 ```
-npm start -- --reset-cache
+npm start --reset-cache
 # or
-yarn start -- --reset-cache
+yarn start --reset-cache
 ```
 
 #### `npm test`
@@ -197,7 +197,7 @@ http://192.168.0.1:19001
 
 If this works, but you're still unable to load your app by scanning the QR code, please open an issue on the [Create React Native App repository](https://github.com/react-community/create-react-native-app) with details about these steps and any other error messages you may have received.
 
-If you're not able to load the `http` URL in your phone's web browser, try using the tethering/mobile hotspot feature on your phone (beware of data usage, though), connecting your computer to that WiFi network, and restarting the packager.
+If you're not able to load the `http` URL in your phone's web browser, try using the tethering/mobile hotspot feature on your phone (beware of data usage, though), connecting your computer to that WiFi network, and restarting the packager. If you are using a VPN you may need to disable it.
 
 ### iOS Simulator won't open
 

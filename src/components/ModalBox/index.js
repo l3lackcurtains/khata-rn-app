@@ -1,11 +1,11 @@
 // @flow
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Modal, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Card } from 'react-native-material-ui';
 import { Motion, spring } from 'react-motion';
 
-import { PText } from '../../components/Text';
+import { LPText } from '../../components/Text';
 
 const styles = StyleSheet.create({
   modalView: {
@@ -18,11 +18,12 @@ const styles = StyleSheet.create({
   dialogBox: {
     alignSelf: 'center',
     width: '92%',
-    marginLeft: -1000
+    marginLeft: -1000,
+    backgroundColor: '#FAFAFA'
   },
   dialogBoxTitle: {
     padding: 16,
-    backgroundColor: '#e5f6c1',
+    backgroundColor: '#2c3e50',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
@@ -46,8 +47,13 @@ const ModalBox = props => {
           {({ marginLeft }) => (
             <Card style={{ container: { ...StyleSheet.flatten([styles.dialogBox]), marginLeft } }}>
               <View style={styles.dialogBoxTitle}>
-                <PText>{title}</PText>
-                <MaterialIcons name="close" size={24} onPress={otherProps.onRequestClose} />
+                <LPText style={{ fontSize: 18 }}>{title}</LPText>
+                <MaterialIcons
+                  name="close"
+                  size={24}
+                  color="#fff"
+                  onPress={otherProps.onRequestClose}
+                />
               </View>
               <View style={styles.dialogBoxContent}>
                 {children}

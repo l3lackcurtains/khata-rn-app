@@ -4,10 +4,10 @@
    "icon": "./src/assets/images/wallet.png",
    "version": "1.0.0",
    "slug": "khata-app",
-   "sdkVersion": "25.0.0",
+   "sdkVersion": "26.0.0",
    "platforms": ["ios", "android"],
    "orientation": "portrait",
-   "androidStatusBarColor": "#580e14",
+   "androidStatusBarColor": "#212f3d",
    "ios": {
 	 "bundleIdentifier": "com.crumet.khataapp"
    },

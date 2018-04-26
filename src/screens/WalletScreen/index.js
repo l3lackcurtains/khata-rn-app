@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, ImageBackground } from 'react-native';
 import { Card } from 'react-native-material-ui';
 
-import { PText, H1Text } from '../../components/Text';
+import { LPText, LH1Text, PText, H1Text } from '../../components/Text';
 import WalletImage from '../../assets/images/wallet.png';
 
 const styles = StyleSheet.create({
   wrapper: {
     padding: 8
   },
-  twoBox: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center'
+  topBox: {
+    backgroundColor: '#2c3e50',
+    margin: -8,
+    marginBottom: -32,
+    paddingBottom: 48
   },
   walletCard: {
     padding: 16,
@@ -32,6 +33,9 @@ const styles = StyleSheet.create({
   },
   savingCard: {
     backgroundColor: '#BBDEFB'
+  },
+  overlay: {
+    backgroundColor: 'rgba(0,0,0,0.4)'
   }
 });
 
@@ -92,47 +96,76 @@ class WalletScreen extends Component {
     const { currencyCode } = this.props.getSettings.data;
     return (
       <View style={styles.wrapper}>
-        <View style={styles.oneBox}>
-          <Card>
-            <View style={styles.walletCard}>
-              <Image style={styles.walletImage} source={WalletImage} />
-              <View>
-                <PText>You have</PText>
-                <H1Text>{`${currencyCode} ${this.state.totalWalletAmount}`}</H1Text>
-                <PText>in your wallet.</PText>
-              </View>
+        <View style={styles.topBox}>
+          <View style={styles.walletCard}>
+            <Image style={styles.walletImage} source={WalletImage} />
+            <View>
+              <LH1Text style={{ fontSize: 40 }}>{`${currencyCode} ${
+                this.state.totalWalletAmount
+              }`}</LH1Text>
+              <LPText>Amount in Wallet.</LPText>
             </View>
-          </Card>
+          </View>
         </View>
 
-        <View style={styles.oneBox}>
+        <View>
           <Card style={{ container: styles.incomeCard }}>
-            <View style={styles.walletCard}>
-              <View>
-                <H1Text>{`${currencyCode} ${this.state.totalIncomesAmount}`}</H1Text>
-                <PText>Incomes</PText>
+            <ImageBackground
+              style={{
+                width: '100%'
+              }}
+              source={{
+                uri:
+                  'https://images.pexels.com/photos/128867/coins-currency-investment-insurance-128867.jpeg?dl&fit=crop&crop=entropy&w=640&h=426'
+              }}
+            >
+              <View style={[styles.walletCard, styles.overlay]}>
+                <View>
+                  <LH1Text>{`${currencyCode} ${this.state.totalIncomesAmount}`}</LH1Text>
+                  <LPText>Incomes</LPText>
+                </View>
               </View>
-            </View>
+            </ImageBackground>
           </Card>
         </View>
 
-        <View style={styles.twoBox}>
+        <View>
           <Card style={{ container: styles.expenseCard }}>
-            <View style={styles.walletCard}>
-              <View>
-                <H1Text>{`${currencyCode} ${this.state.totalExpensesAmount}`}</H1Text>
-                <PText>Expenses</PText>
+            <ImageBackground
+              style={{
+                width: '100%'
+              }}
+              source={{
+                uri:
+                  'https://images.pexels.com/photos/50987/money-card-business-credit-card-50987.jpeg?dl&fit=crop&crop=entropy&w=640&h=426'
+              }}
+            >
+              <View style={[styles.walletCard, styles.overlay]}>
+                <View>
+                  <LH1Text>{`${currencyCode} ${this.state.totalExpensesAmount}`}</LH1Text>
+                  <LPText>Expenses</LPText>
+                </View>
               </View>
-            </View>
+            </ImageBackground>
           </Card>
 
           <Card style={{ container: styles.savingCard }}>
-            <View style={styles.walletCard}>
-              <View>
-                <H1Text>{`${currencyCode} ${this.state.totalSavingsAmount}`}</H1Text>
-                <PText>Savings</PText>
+            <ImageBackground
+              style={{
+                width: '100%'
+              }}
+              source={{
+                uri:
+                  'https://images.pexels.com/photos/221534/pexels-photo-221534.jpeg?dl&fit=crop&crop=entropy&w=640&h=544'
+              }}
+            >
+              <View style={[styles.walletCard, styles.overlay]}>
+                <View>
+                  <LH1Text>{`${currencyCode} ${this.state.totalSavingsAmount}`}</LH1Text>
+                  <LPText>Savings</LPText>
+                </View>
               </View>
-            </View>
+            </ImageBackground>
           </Card>
         </View>
       </View>

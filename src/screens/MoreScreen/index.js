@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
-import { ListItem, RadioButton } from 'react-native-material-ui';
+import { ListItem } from 'react-native-material-ui';
 
 import { PText } from '../../components/Text';
 import { TextField } from '../../components/Input';
@@ -26,15 +26,12 @@ const styles = StyleSheet.create({
 class MoreScreen extends Component {
   state = {
     currencyModal: false,
-    themeModal: false,
-    theme: 'light',
     currencyCode: ''
   };
 
   componentDidMount = () => {
     this.setState({
-      currencyCode: this.props.getSettings.data.currencyCode,
-      theme: this.props.getSettings.data.theme
+      currencyCode: this.props.getSettings.data.currencyCode
     });
   };
 
@@ -66,35 +63,10 @@ class MoreScreen extends Component {
     );
   };
 
-  changeTheme = theme => {
-    this.setState(
-      {
-        theme
-      },
-      () => {
-        const query = {
-          theme: this.state.theme
-        };
-        this.props.dispatch(updateSettingReq(query));
-      }
-    );
-  };
-
   render() {
-    const { theme, currencyCode } = this.state;
+    const { currencyCode } = this.state;
     return (
       <View style={styles.wrapper}>
-        <ListItem
-          style={{ contentViewContainer: styles.listItem }}
-          divider
-          dense
-          centerElement={{
-            primaryText: 'Theme',
-            secondaryText: 'Choose the theme of your app.'
-          }}
-          rightElement={<PText>{theme}</PText>}
-          onPress={() => this.setState({ themeModal: true })}
-        />
         <ListItem
           style={{ contentViewContainer: styles.listItem }}
           divider
@@ -150,28 +122,6 @@ class MoreScreen extends Component {
             value={this.state.currencyCode}
             onChangeText={value => this.changeCurrencyCode(value)}
           />
-        </ModalBox>
-
-        <ModalBox
-          visible={this.state.themeModal}
-          onRequestClose={() => this.closeModal('themeModal')}
-          transparent
-          title="Change Theme"
-        >
-          <View style={{ height: 120 }}>
-            <RadioButton
-              label="Light Theme"
-              value="light"
-              checked={this.state.theme === 'light'}
-              onSelect={checked => this.changeTheme(checked)}
-            />
-            <RadioButton
-              label="Dark Theme"
-              value="dark"
-              checked={this.state.theme === 'dark'}
-              onSelect={checked => this.changeTheme(checked)}
-            />
-          </View>
         </ModalBox>
       </View>
     );

@@ -22,12 +22,11 @@ import {
 */
 function* getIncomes() {
   try {
-    const getIncomes = yield AsyncStorage.getItem('@incomes');
-    let getIncomesJSON = null;
-    if (getIncomes !== null) {
-      getIncomesJSON = JSON.parse(getIncomes);
+    const getIncomeString = yield AsyncStorage.getItem('@incomes');
+    let getIncomesJSON = [];
+    if (getIncomeString !== null) {
+      getIncomesJSON = JSON.parse(getIncomeString);
     }
-
     const sortedIncomeJson = getIncomesJSON.sort(
       (left, right) => moment(right.createdAt).format('X') - moment(left.createdAt).format('X')
     );
@@ -60,10 +59,10 @@ function* addIncome(action) {
       id
     };
 
-    const getIncomes = yield AsyncStorage.getItem('@incomes');
+    const getIncomeString = yield AsyncStorage.getItem('@incomes');
     let incomeString = '';
-    if (getIncomes !== null) {
-      const getIncomesJSON = JSON.parse(getIncomes);
+    if (getIncomeString !== null) {
+      const getIncomesJSON = JSON.parse(getIncomeString);
       getIncomesJSON.unshift(incomeJSON);
       incomeString = JSON.stringify(getIncomesJSON);
     } else {
@@ -90,9 +89,9 @@ export function* addIncomeSaga() {
 function* removeIncome(action) {
   const { id } = action.query;
   try {
-    const getIncomes = yield AsyncStorage.getItem('@incomes');
-    if (getIncomes !== null) {
-      const getIncomesJSON = JSON.parse(getIncomes);
+    const getIncomeString = yield AsyncStorage.getItem('@incomes');
+    if (getIncomeString !== null) {
+      const getIncomesJSON = JSON.parse(getIncomeString);
       const index = getIncomesJSON.findIndex(o => o.id === id);
       if (index !== -1) getIncomesJSON.splice(index, 1);
       const incomeString = JSON.stringify(getIncomesJSON);
@@ -118,9 +117,9 @@ export function* removeIncomeSaga() {
 function* updateIncome(action) {
   try {
     const { id, incomeAmount, incomeFrom } = action.query;
-    const getIncomes = yield AsyncStorage.getItem('@incomes');
-    if (getIncomes !== null) {
-      const getIncomesJSON = JSON.parse(getIncomes);
+    const getIncomeString = yield AsyncStorage.getItem('@incomes');
+    if (getIncomeString !== null) {
+      const getIncomesJSON = JSON.parse(getIncomeString);
       const index = getIncomesJSON.findIndex(o => o.id === id);
 
       getIncomesJSON[index].incomeAmount = incomeAmount;

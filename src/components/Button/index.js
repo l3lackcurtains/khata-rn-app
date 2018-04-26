@@ -7,7 +7,7 @@ const PrimaryButton = props => (
     raised
     style={{
       container: {
-        backgroundColor: '#455A64'
+        backgroundColor: '#0984e3'
       },
       text: {
         color: '#fff',

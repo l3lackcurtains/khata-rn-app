@@ -2,7 +2,7 @@ import A from '../actions/index';
 
 const initState = {
   isReceived: false,
-  data: {},
+  data: [],
   error: false,
   isLoading: false
 };

@@ -1,5 +1,7 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import { AsyncStorage } from 'react-native';
+import moment from 'moment';
+import md5 from 'react-native-md5';
 
 import A from '../actions/index';
 import {
@@ -18,14 +20,17 @@ import {
  * Get Expenses
  * *************************************
 */
-function* getExpenses(action) {
+function* getExpenses() {
   try {
-    const getExpenses = yield AsyncStorage.getItem('@expenses');
-    let getExpensesJSON = null;
-    if (getExpenses !== null) {
-      getExpensesJSON = JSON.parse(getExpenses);
+    const getExpenseString = yield AsyncStorage.getItem('@expenses');
+    let getExpensesJSON = [];
+    if (getExpenseString !== null) {
+      getExpensesJSON = JSON.parse(getExpenseString);
     }
-    yield put(getExpensesSuccess(getExpensesJSON));
+    const sortedExpenseJson = getExpensesJSON.sort(
+      (left, right) => moment(right.createdAt).format('X') - moment(left.createdAt).format('X')
+    );
+    yield put(getExpensesSuccess(sortedExpenseJson));
   } catch (error) {
     yield put(getExpensesErr(error.toString()));
   }
@@ -44,13 +49,21 @@ export function* getExpensesSaga() {
 function* addExpense(action) {
   try {
     const { expenseAmount, expenseFrom } = action.query;
-    const expenseJSON = { expenseAmount, expenseFrom };
+    const createdAt = moment().format();
+    const id = md5.hex_md5(createdAt);
 
-    const getExpenses = yield AsyncStorage.getItem('@expenses');
+    const expenseJSON = {
+      expenseAmount,
+      expenseFrom,
+      createdAt,
+      id
+    };
+
+    const getExpenseString = yield AsyncStorage.getItem('@expenses');
     let expenseString = '';
-    if (getExpenses !== null) {
-      const getExpensesJSON = JSON.parse(getExpenses);
-      getExpensesJSON.push(expenseJSON);
+    if (getExpenseString !== null) {
+      const getExpensesJSON = JSON.parse(getExpenseString);
+      getExpensesJSON.unshift(expenseJSON);
       expenseString = JSON.stringify(getExpensesJSON);
     } else {
       expenseString = JSON.stringify([expenseJSON]);
@@ -74,11 +87,12 @@ export function* addExpenseSaga() {
 */
 
 function* removeExpense(action) {
-  const { index } = action.query;
+  const { id } = action.query;
   try {
-    const getExpenses = yield AsyncStorage.getItem('@expenses');
-    if (getExpenses !== null) {
-      const getExpensesJSON = JSON.parse(getExpenses);
+    const getExpenseString = yield AsyncStorage.getItem('@expenses');
+    if (getExpenseString !== null) {
+      const getExpensesJSON = JSON.parse(getExpenseString);
+      const index = getExpensesJSON.findIndex(o => o.id === id);
       if (index !== -1) getExpensesJSON.splice(index, 1);
       const expenseString = JSON.stringify(getExpensesJSON);
       yield AsyncStorage.setItem('@expenses', expenseString);
@@ -102,10 +116,11 @@ export function* removeExpenseSaga() {
 
 function* updateExpense(action) {
   try {
-    const { index, expenseAmount, expenseFrom } = action.query;
-    const getExpenses = yield AsyncStorage.getItem('@expenses');
-    if (getExpenses !== null) {
-      const getExpensesJSON = JSON.parse(getExpenses);
+    const { id, expenseAmount, expenseFrom } = action.query;
+    const getExpenseString = yield AsyncStorage.getItem('@expenses');
+    if (getExpenseString !== null) {
+      const getExpensesJSON = JSON.parse(getExpenseString);
+      const index = getExpensesJSON.findIndex(o => o.id === id);
 
       getExpensesJSON[index].expenseAmount = expenseAmount;
       getExpensesJSON[index].expenseFrom = expenseFrom;

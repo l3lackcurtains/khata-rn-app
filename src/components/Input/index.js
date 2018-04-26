@@ -4,6 +4,16 @@ import { Madoka } from 'react-native-textinput-effects';
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+  // Light
+  inputStyleLight: {
+    fontFamily: 'Roboto',
+    color: '#fff'
+  },
+  labelStyleLight: {
+    fontFamily: 'Roboto',
+    color: '#FAFAFA'
+  },
+  // dark
   inputStyle: {
     fontFamily: 'Roboto',
     color: '#444'
@@ -25,6 +35,15 @@ const TextField = props => (
   />
 );
 
+const LTextField = props => (
+  <Madoka
+    borderColor={borderColor}
+    inputStyle={styles.inputStyleLight}
+    labelStyle={styles.labelStyleLight}
+    {...props}
+  />
+);
+
 const TextAreaField = props => (
   <Madoka
     borderColor={borderColor}
@@ -36,4 +55,4 @@ const TextAreaField = props => (
   />
 );
 
-export { TextField, TextAreaField };
+export { TextField, LTextField, TextAreaField };

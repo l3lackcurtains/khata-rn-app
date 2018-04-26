@@ -2,15 +2,25 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Provider } from 'react-redux';
 import { Font } from 'expo';
-import { COLOR, ThemeProvider } from 'react-native-material-ui';
-import { PersistGate } from 'redux-persist/lib/integration/react';
+import { ThemeProvider } from 'react-native-material-ui';
 
-import { store, AppWithNavigationState, persistor } from './redux';
+import { store, AppWithNavigationState } from './redux';
 
 // App theme config.
 const uiTheme = {
+  fontFamily: 'Roboto',
   palette: {
-    primaryColor: COLOR.red500
+    primaryColor: '#2c3e50',
+    accentColor: '#e67e22',
+    primaryTextColor: '#18232d',
+    secondaryTextColor: '#666',
+    alternateTextColor: '#FAFAFA',
+    canvasColor: '#fff',
+    borderColor: '#e3e3e3',
+    disabledColor: '#888',
+    disabledTextColor: '#888',
+    activeIcon: '#18232d',
+    inactiveIcon: '#888'
   }
 };
 
@@ -33,13 +43,11 @@ class MainApp extends Component {
   render() {
     if (!this.state.fontLoaded) return <View />;
     return (
-      <PersistGate loading={null} persistor={persistor}>
-        <Provider store={store}>
-          <ThemeProvider uiTheme={uiTheme}>
-            <AppWithNavigationState />
-          </ThemeProvider>
-        </Provider>
-      </PersistGate>
+      <Provider store={store}>
+        <ThemeProvider uiTheme={uiTheme}>
+          <AppWithNavigationState />
+        </ThemeProvider>
+      </Provider>
     );
   }
 }

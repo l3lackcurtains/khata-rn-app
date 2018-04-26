@@ -1,5 +1,7 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import { AsyncStorage } from 'react-native';
+import moment from 'moment';
+import md5 from 'react-native-md5';
 
 import A from '../actions/index';
 import {
@@ -18,14 +20,17 @@ import {
  * Get Savings
  * *************************************
 */
-function* getSavings(action) {
+function* getSavings() {
   try {
-    const getSavings = yield AsyncStorage.getItem('@savings');
-    let getSavingsJSON = null;
-    if (getSavings !== null) {
-      getSavingsJSON = JSON.parse(getSavings);
+    const getSavingString = yield AsyncStorage.getItem('@savings');
+    let getSavingsJSON = [];
+    if (getSavingString !== null) {
+      getSavingsJSON = JSON.parse(getSavingString);
     }
-    yield put(getSavingsSuccess(getSavingsJSON));
+    const sortedSavingJson = getSavingsJSON.sort(
+      (left, right) => moment(right.createdAt).format('X') - moment(left.createdAt).format('X')
+    );
+    yield put(getSavingsSuccess(sortedSavingJson));
   } catch (error) {
     yield put(getSavingsErr(error.toString()));
   }
@@ -44,13 +49,21 @@ export function* getSavingsSaga() {
 function* addSaving(action) {
   try {
     const { savingAmount, savingFrom } = action.query;
-    const savingJSON = { savingAmount, savingFrom };
+    const createdAt = moment().format();
+    const id = md5.hex_md5(createdAt);
 
-    const getSavings = yield AsyncStorage.getItem('@savings');
+    const savingJSON = {
+      savingAmount,
+      savingFrom,
+      createdAt,
+      id
+    };
+
+    const getSavingString = yield AsyncStorage.getItem('@savings');
     let savingString = '';
-    if (getSavings !== null) {
-      const getSavingsJSON = JSON.parse(getSavings);
-      getSavingsJSON.push(savingJSON);
+    if (getSavingString !== null) {
+      const getSavingsJSON = JSON.parse(getSavingString);
+      getSavingsJSON.unshift(savingJSON);
       savingString = JSON.stringify(getSavingsJSON);
     } else {
       savingString = JSON.stringify([savingJSON]);
@@ -74,11 +87,12 @@ export function* addSavingSaga() {
 */
 
 function* removeSaving(action) {
-  const { index } = action.query;
+  const { id } = action.query;
   try {
-    const getSavings = yield AsyncStorage.getItem('@savings');
-    if (getSavings !== null) {
-      const getSavingsJSON = JSON.parse(getSavings);
+    const getSavingString = yield AsyncStorage.getItem('@savings');
+    if (getSavingString !== null) {
+      const getSavingsJSON = JSON.parse(getSavingString);
+      const index = getSavingsJSON.findIndex(o => o.id === id);
       if (index !== -1) getSavingsJSON.splice(index, 1);
       const savingString = JSON.stringify(getSavingsJSON);
       yield AsyncStorage.setItem('@savings', savingString);
@@ -102,10 +116,11 @@ export function* removeSavingSaga() {
 
 function* updateSaving(action) {
   try {
-    const { index, savingAmount, savingFrom } = action.query;
-    const getSavings = yield AsyncStorage.getItem('@savings');
-    if (getSavings !== null) {
-      const getSavingsJSON = JSON.parse(getSavings);
+    const { id, savingAmount, savingFrom } = action.query;
+    const getSavingString = yield AsyncStorage.getItem('@savings');
+    if (getSavingString !== null) {
+      const getSavingsJSON = JSON.parse(getSavingString);
+      const index = getSavingsJSON.findIndex(o => o.id === id);
 
       getSavingsJSON[index].savingAmount = savingAmount;
       getSavingsJSON[index].savingFrom = savingFrom;

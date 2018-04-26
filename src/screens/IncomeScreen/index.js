@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { View, StyleSheet, Image, FlatList, Keyboard } from 'react-native';
+import { View, StyleSheet, FlatList, Keyboard } from 'react-native';
 import { ListItem, Card } from 'react-native-material-ui';
 import { connect } from 'react-redux';
 
-import { PText, H2Text } from '../../components/Text';
+import { PText, H2Text, LH1Text } from '../../components/Text';
 import { PrimaryButton, SecondaryButton } from '../../components/Button';
-import { TextField } from '../../components/Input';
+import { TextField, LTextField } from '../../components/Input';
 import ModalBox from '../../components/ModalBox';
-import IncomingImage from '../../assets/images/income.png';
 
 import {
   addIncomeReq,
@@ -25,20 +24,18 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 8
   },
-  incomeHeader: {
+  topBox: {
     flexDirection: 'column',
-    backgroundColor: '#FFF3E0',
+    backgroundColor: '#2c3e50',
     marginHorizontal: -8,
     marginTop: -8,
-    padding: 0,
+    padding: 8,
+    marginBottom: -32,
+    paddingBottom: 48,
     borderBottomWidth: 1,
     borderColor: '#e2e2e2'
   },
-  incomeInfo: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  incomeCard: {
+  incomeButton: {
     marginHorizontal: -8,
     marginTop: -8,
     paddingHorizontal: 16,
@@ -53,16 +50,6 @@ const styles = StyleSheet.create({
   incomeAddFormField: {
     width: '50%',
     padding: 8
-  },
-  incomeImage: {
-    height: 32,
-    width: 32,
-    marginRight: 16
-  },
-  incomeTotal: {
-    fontWeight: '500',
-    fontFamily: 'lato-regular',
-    fontSize: 20
   },
   incomeList: {
     paddingHorizontal: 8,
@@ -187,6 +174,7 @@ class IncomeScreen extends Component {
   }
 
   updateTotalAmount = arr => {
+    console.log(arr);
     const totalAmount = arr.reduce((acc, curr) => acc + parseInt(curr.incomeAmount, 10), 0);
     this.setState({ totalAmount });
   };
@@ -197,16 +185,16 @@ class IncomeScreen extends Component {
     const { currencyCode } = this.props.getSettings.data;
     return (
       <View style={styles.wrapper}>
-        <View style={styles.incomeHeader}>
+        <View style={styles.topBox}>
           <View style={styles.incomeAddForm}>
-            <TextField
+            <LTextField
               style={styles.incomeAddFormField}
               name="incomeFrom"
               label="Income From"
               value={this.state.incomeFrom}
               onChangeText={value => this.onChangeField('incomeFrom', value)}
             />
-            <TextField
+            <LTextField
               style={styles.incomeAddFormField}
               name="incomeAmount"
               label="Amount"
@@ -215,18 +203,13 @@ class IncomeScreen extends Component {
               onChangeText={value => this.onChangeField('incomeAmount', value)}
             />
           </View>
-          <View style={styles.incomeCard}>
-            <View style={styles.incomeInfo}>
-              <Image style={styles.incomeImage} source={IncomingImage} />
-              <PText style={styles.incomeTotal}>{`${currencyCode} ${totalAmount}`}</PText>
-            </View>
-            <View>
-              <PrimaryButton
-                text="Add Income"
-                disabled={!this.state.incomeFrom || !this.state.incomeAmount}
-                onPress={this.onAddIncome}
-              />
-            </View>
+          <View style={styles.incomeButton}>
+            <LH1Text>{`${currencyCode} ${totalAmount}`}</LH1Text>
+            <PrimaryButton
+              text="Add Income"
+              disabled={!this.state.incomeFrom || !this.state.incomeAmount}
+              onPress={this.onAddIncome}
+            />
           </View>
         </View>
         {incomes.Loading ? (
@@ -267,7 +250,7 @@ class IncomeScreen extends Component {
         )}
         <ModalBox
           visible={this.state.updateModal}
-          animationType="fade"
+          animationType="none"
           onRequestClose={() => this.closeModal('updateModal')}
           transparent
           title="Edit Income"

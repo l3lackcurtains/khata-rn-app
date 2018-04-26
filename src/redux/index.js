@@ -1,11 +1,14 @@
 // @flow
 import React, { Component } from 'react';
 import { BackHandler, AsyncStorage } from 'react-native';
-import { addNavigationHelpers, NavigationActions } from 'react-navigation';
+import { addNavigationHelpers } from 'react-navigation';
+import {
+  createReduxBoundAddListener,
+  createReactNavigationReduxMiddleware
+} from 'react-navigation-redux-helpers';
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
-import { persistStore, persistReducer } from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
 
 import rootSagas from './sagas';
@@ -33,57 +36,55 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-const middlewares = [sagaMiddleware];
+const initialState = AppNavigator.router.getStateForAction(
+  AppNavigator.router.getActionForPathAndParams('Home')
+);
 
-const navReducer = (state, action) => {
+const navReducer = (state = initialState, action) => {
   const nextState = AppNavigator.router.getStateForAction(action, state);
   return nextState || state;
 };
 
-const persistConfig = {
-  key: 'root',
-  storage: AsyncStorage
-};
+const navMiddleware = createReactNavigationReduxMiddleware('root', state => state.nav);
+const addListener = createReduxBoundAddListener('root');
+
+const middlewares = [sagaMiddleware, navMiddleware];
 
 const appReducer = combineReducers({
   ...rootReducers,
   nav: navReducer
 });
 
-const persistedReducer = persistReducer(persistConfig, appReducer);
-
-const store = createStore(persistedReducer, applyMiddleware(...middlewares));
-
-const persistor = persistStore(store);
+const store = createStore(appReducer, applyMiddleware(...middlewares));
 
 // Run Saga Middleware
 sagaMiddleware.run(rootSagas);
 
 class ReduxNavigation extends Component<Props> {
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+    BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid);
 
     // Dispatch the settings
     const query = {};
     this.props.dispatch(getSettingsReq(query));
   }
   componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid);
   }
-  onBackPress = () => {
-    const { dispatch, nav } = this.props;
-    if (nav.index === 0) {
-      return false;
+  onBackButtonPressAndroid = () => {
+    if (this.isSelectionModeEnabled()) {
+      this.disableSelectionMode();
+      return true;
     }
-    dispatch(NavigationActions.back());
-    return true;
+    return false;
   };
 
   render() {
     const { dispatch, nav } = this.props;
     const navigation = addNavigationHelpers({
       dispatch,
-      state: nav
+      state: nav,
+      addListener
     });
     return <AppNavigator navigation={navigation} />;
   }
@@ -98,4 +99,4 @@ const AppWithNavigationState = connect(mapStateToProps)(ReduxNavigation);
 // remove memory error yellow box
 console.ignoredYellowBox = ['Setting a timer'];
 
-export { store, AppWithNavigationState, persistor };
+export { store, AppWithNavigationState };

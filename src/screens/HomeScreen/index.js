@@ -4,6 +4,7 @@ import { View, StyleSheet } from 'react-native';
 import { BottomNavigation } from 'react-native-material-ui';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
 
+import AppBar from '../../components/AppBar';
 import WalletScreen from '../WalletScreen';
 import ExpenseScreen from '../ExpenseScreen';
 import IncomeScreen from '../IncomeScreen';
@@ -29,15 +30,12 @@ const styles = StyleSheet.create({
 });
 
 class HomeScreen extends Component {
-  static navigationOptions = {
-    title: 'Khata',
-    headerStyle: {
-      backgroundColor: '#FAFAFA'
-    }
-  };
+  static navigationOptions = () => ({
+    header: null
+  });
 
   state = {
-    active: 'wallet'
+    active: 'income'
   };
 
   componentDidMount = async () => {
@@ -48,9 +46,10 @@ class HomeScreen extends Component {
   };
 
   render() {
-    const { getExpenses, getIncomes, getSavings, darkTheme } = this.props;
+    const { getExpenses, getIncomes, getSavings } = this.props;
     return (
       <View style={styles.main}>
+        <AppBar />
         {this.state.active === 'wallet' ? (
           <WalletScreen getExpenses={getExpenses} getIncomes={getIncomes} getSavings={getSavings} />
         ) : this.state.active === 'expense' ? (
