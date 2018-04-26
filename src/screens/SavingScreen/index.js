@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, FlatList, Keyboard } from 'react-native';
+import moment from 'moment';
+import { View, StyleSheet, FlatList, Keyboard } from 'react-native';
 import { ListItem, Card } from 'react-native-material-ui';
 import { connect } from 'react-redux';
 
-import { PText } from '../../components/Text';
+import { PText, H2Text, LH1Text } from '../../components/Text';
 import { PrimaryButton, SecondaryButton } from '../../components/Button';
-import { TextField } from '../../components/Input';
+import { TextField, LTextField } from '../../components/Input';
 import ModalBox from '../../components/ModalBox';
-import IncomingImage from '../../assets/images/saving.png';
 
 import {
   addSavingReq,
@@ -24,20 +24,21 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 8
   },
-  savingHeader: {
+  topBox: {
     flexDirection: 'column',
-    backgroundColor: '#E3F2FD',
+    backgroundColor: '#2c3e50',
     marginHorizontal: -8,
     marginTop: -8,
-    padding: 0,
+    padding: 8,
+    marginBottom: -32,
+    paddingBottom: 48,
     borderBottomWidth: 1,
     borderColor: '#e2e2e2'
   },
-  savingInfo: {
-    flexDirection: 'row',
-    alignItems: 'center'
+  savingTotalPrice: {
+    fontSize: 24
   },
-  savingCard: {
+  savingButton: {
     marginHorizontal: -8,
     marginTop: -8,
     paddingHorizontal: 16,
@@ -53,19 +54,15 @@ const styles = StyleSheet.create({
     width: '50%',
     padding: 8
   },
-  savingImage: {
-    height: 32,
-    width: 32,
-    marginRight: 16
-  },
-  savingTotal: {
-    fontWeight: '700',
-    fontSize: 24
-  },
   savingList: {
     paddingHorizontal: 8,
     marginHorizontal: -8,
     padding: 0
+  },
+  savingPrice: {
+    marginRight: 16,
+    fontSize: 16,
+    fontFamily: 'lato-regular'
   }
 });
 
@@ -80,9 +77,10 @@ class SavingScreen extends Component {
     totalAmount: 0
   };
 
-  componentDidMount = async () => {
-    const query = {};
-    this.props.dispatch(getSavingsReq(query));
+  componentDidMount = () => {
+    if (this.props.getSavings.isReceived && this.props.getSavings.data !== null) {
+      this.updateTotalAmount(this.props.getSavings.data);
+    }
   };
 
   componentWillReceiveProps(nextProps) {
@@ -103,6 +101,7 @@ class SavingScreen extends Component {
       const query = {};
       this.props.dispatch(getSavingsReq(query));
     }
+
     if (nextProps.getSavings.data !== null) {
       // update on changes
       this.updateTotalAmount(nextProps.getSavings.data);
@@ -122,8 +121,12 @@ class SavingScreen extends Component {
 
   onUpdateSaving = () => {
     const { savingAmountUpdate, savingFromUpdate } = this.state;
-    const index = this.state.currentId;
-    const query = { savingAmount: savingAmountUpdate, savingFrom: savingFromUpdate, index };
+    const id = this.state.currentId;
+    const query = {
+      savingAmount: savingAmountUpdate,
+      savingFrom: savingFromUpdate,
+      id
+    };
     this.props.dispatch(updateSavingReq(query));
     this.setState({
       savingAmount: null,
@@ -133,8 +136,8 @@ class SavingScreen extends Component {
   };
 
   onRemoveSaving = () => {
-    const index = this.state.currentId;
-    const query = { index };
+    const id = this.state.currentId;
+    const query = { id };
     this.props.dispatch(removeSavingReq(query));
     this.setState({
       savingAmount: null,
@@ -155,12 +158,12 @@ class SavingScreen extends Component {
     this.setState({ [name]: true });
   }
 
-  openUpdateModal(sav, index) {
+  openUpdateModal(inco) {
     this.setState({
       updateModal: true,
-      currentId: index,
-      savingFromUpdate: sav.savingFrom,
-      savingAmountUpdate: sav.savingAmount
+      currentId: inco.id,
+      savingFromUpdate: inco.savingFrom,
+      savingAmountUpdate: inco.savingAmount
     });
   }
 
@@ -174,25 +177,27 @@ class SavingScreen extends Component {
   }
 
   updateTotalAmount = arr => {
-    const totalAmount = arr.reduce((acc, curr) => acc + parseInt(curr.savingAmount, 10), 0);
+    const totalAmount =
+      arr.length > 0 ? arr.reduce((acc, curr) => acc + parseInt(curr.savingAmount, 10), 0) : 0;
     this.setState({ totalAmount });
   };
 
   render() {
     const savings = this.props.getSavings;
     const { totalAmount } = this.state;
+    const { currencyCode } = this.props.getSettings.data;
     return (
       <View style={styles.wrapper}>
-        <View style={styles.savingHeader}>
+        <View style={styles.topBox}>
           <View style={styles.savingAddForm}>
-            <TextField
+            <LTextField
               style={styles.savingAddFormField}
               name="savingFrom"
-              label="Saving For"
+              label="Saving From"
               value={this.state.savingFrom}
               onChangeText={value => this.onChangeField('savingFrom', value)}
             />
-            <TextField
+            <LTextField
               style={styles.savingAddFormField}
               name="savingAmount"
               label="Amount"
@@ -201,36 +206,48 @@ class SavingScreen extends Component {
               onChangeText={value => this.onChangeField('savingAmount', value)}
             />
           </View>
-          <View style={styles.savingCard}>
-            <View style={styles.savingInfo}>
-              <Image style={styles.savingImage} source={IncomingImage} />
-              <PText style={styles.savingTotal}>Rs. {totalAmount}</PText>
-            </View>
-            <View>
-              <PrimaryButton
-                text="Add Saving"
-                disabled={!this.state.savingFrom || !this.state.savingAmount}
-                onPress={this.onAddSaving}
-              />
-            </View>
+          <View style={styles.savingButton}>
+            <LH1Text style={styles.savingTotalPrice}>{`${currencyCode} ${totalAmount}`}</LH1Text>
+            <PrimaryButton
+              text="Add Saving"
+              disabled={!this.state.savingFrom || !this.state.savingAmount}
+              onPress={this.onAddSaving}
+            />
           </View>
         </View>
         {savings.Loading ? (
           <PText>Loading</PText>
+        ) : savings.length === 0 ? (
+          <View />
         ) : (
           <FlatList
             style={styles.savingList}
             data={savings.data}
-            keyExtractor={(item, index) => index}
-            renderItem={({ item, index }) => (
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
               <Card>
                 <ListItem
                   divider
+                  style={{
+                    primaryText: {
+                      fontFamily: 'Roboto'
+                    },
+                    secondaryText: {
+                      fontFamily: 'Roboto'
+                    }
+                  }}
                   centerElement={{
                     primaryText: item.savingFrom,
-                    secondaryText: `Rs. ${item.savingAmount}`
+                    secondaryText: `${moment(item.createdAt).calendar()} · ${moment(
+                      item.createdAt
+                    ).format('D MMMM, YYYY')}`
                   }}
-                  onPress={() => this.openUpdateModal(item, index)}
+                  rightElement={
+                    <H2Text style={styles.savingPrice}>{`${currencyCode} ${
+                      item.savingAmount
+                    }`}</H2Text>
+                  }
+                  onPress={() => this.openUpdateModal(item)}
                 />
               </Card>
             )}
@@ -238,7 +255,7 @@ class SavingScreen extends Component {
         )}
         <ModalBox
           visible={this.state.updateModal}
-          animationType="fade"
+          animationType="none"
           onRequestClose={() => this.closeModal('updateModal')}
           transparent
           title="Edit Saving"
@@ -280,5 +297,6 @@ export default connect(state => ({
   addSaving: state.addSaving,
   getSavings: state.getSavings,
   removeSaving: state.removeSaving,
-  updateSaving: state.updateSaving
+  updateSaving: state.updateSaving,
+  getSettings: state.getSettings
 }))(SavingScreen);

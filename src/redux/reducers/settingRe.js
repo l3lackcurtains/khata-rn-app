@@ -2,7 +2,9 @@ import A from '../actions/index';
 
 const initState = {
   isReceived: false,
-  data: {},
+  data: {
+    currencyCode: ''
+  },
   error: false,
   isLoading: false
 };

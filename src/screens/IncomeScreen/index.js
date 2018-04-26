@@ -35,6 +35,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#e2e2e2'
   },
+  incomeTotalPrice: {
+    fontSize: 24
+  },
   incomeButton: {
     marginHorizontal: -8,
     marginTop: -8,
@@ -60,6 +63,23 @@ const styles = StyleSheet.create({
     marginRight: 16,
     fontSize: 16,
     fontFamily: 'lato-regular'
+  },
+  incomeDate: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#0984e3'
+  },
+  incomeMonth: {
+    fontSize: 12,
+    color: '#555'
+  },
+  incomeFrom: {
+    fontSize: 16,
+    paddingBottom: 4
+  },
+  incomeMeta: {
+    fontSize: 14,
+    color: '#555'
   }
 });
 
@@ -174,8 +194,8 @@ class IncomeScreen extends Component {
   }
 
   updateTotalAmount = arr => {
-    console.log(arr);
-    const totalAmount = arr.reduce((acc, curr) => acc + parseInt(curr.incomeAmount, 10), 0);
+    const totalAmount =
+      arr.length > 0 ? arr.reduce((acc, curr) => acc + parseInt(curr.incomeAmount, 10), 0) : 0;
     this.setState({ totalAmount });
   };
 
@@ -204,7 +224,7 @@ class IncomeScreen extends Component {
             />
           </View>
           <View style={styles.incomeButton}>
-            <LH1Text>{`${currencyCode} ${totalAmount}`}</LH1Text>
+            <LH1Text style={styles.incomeTotalPrice}>{`${currencyCode} ${totalAmount}`}</LH1Text>
             <PrimaryButton
               text="Add Income"
               disabled={!this.state.incomeFrom || !this.state.incomeAmount}
@@ -214,29 +234,40 @@ class IncomeScreen extends Component {
         </View>
         {incomes.Loading ? (
           <PText>Loading</PText>
+        ) : incomes.length === 0 ? (
+          <View />
         ) : (
           <FlatList
             style={styles.incomeList}
             data={incomes.data}
-            keyExtractor={(item, index) => index}
+            keyExtractor={item => item.id}
             renderItem={({ item }) => (
               <Card>
                 <ListItem
                   divider
+                  dense
+                  numberOfLines="dynamic"
                   style={{
-                    primaryText: {
-                      fontFamily: 'Roboto'
-                    },
-                    secondaryText: {
-                      fontFamily: 'Roboto'
+                    centerElementContainer: {
+                      marginLeft: -20
                     }
                   }}
-                  centerElement={{
-                    primaryText: item.incomeFrom,
-                    secondaryText: `${moment(item.createdAt).calendar()} · ${moment(
-                      item.createdAt
-                    ).format('D MMMM, YYYY')}`
-                  }}
+                  centerElement={
+                    <View>
+                      <PText style={styles.incomeFrom}>{item.incomeFrom}</PText>
+                      <PText style={styles.incomeMeta}>{moment(item.createdAt).calendar()}</PText>
+                    </View>
+                  }
+                  leftElement={
+                    <View>
+                      <H2Text style={styles.incomeDate}>
+                        {moment(item.createdAt).format('D')}
+                      </H2Text>
+                      <PText style={styles.incomeMonth}>
+                        {moment(item.createdAt).format('MMMM')}
+                      </PText>
+                    </View>
+                  }
                   rightElement={
                     <H2Text style={styles.incomePrice}>{`${currencyCode} ${
                       item.incomeAmount

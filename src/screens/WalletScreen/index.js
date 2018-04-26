@@ -3,8 +3,11 @@ import { connect } from 'react-redux';
 import { View, StyleSheet, Image, ImageBackground } from 'react-native';
 import { Card } from 'react-native-material-ui';
 
-import { LPText, LH1Text, PText, H1Text } from '../../components/Text';
+import { LPText, LH1Text } from '../../components/Text';
 import WalletImage from '../../assets/images/wallet.png';
+import IncomeBg from '../../assets/images/income-bg.jpeg';
+import ExpenseBg from '../../assets/images/expense-bg.jpeg';
+import SavingBg from '../../assets/images/saving-bg.jpeg';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -14,6 +17,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2c3e50',
     margin: -8,
     marginBottom: -32,
+    paddingTop: 24,
     paddingBottom: 48
   },
   walletCard: {
@@ -24,15 +28,6 @@ const styles = StyleSheet.create({
     height: 80,
     width: 80,
     marginRight: 32
-  },
-  incomeCard: {
-    backgroundColor: '#FFE0B2'
-  },
-  expenseCard: {
-    backgroundColor: '#FFCDD2'
-  },
-  savingCard: {
-    backgroundColor: '#BBDEFB'
   },
   overlay: {
     backgroundColor: 'rgba(0,0,0,0.4)'
@@ -109,15 +104,12 @@ class WalletScreen extends Component {
         </View>
 
         <View>
-          <Card style={{ container: styles.incomeCard }}>
+          <Card>
             <ImageBackground
               style={{
                 width: '100%'
               }}
-              source={{
-                uri:
-                  'https://images.pexels.com/photos/128867/coins-currency-investment-insurance-128867.jpeg?dl&fit=crop&crop=entropy&w=640&h=426'
-              }}
+              source={IncomeBg}
             >
               <View style={[styles.walletCard, styles.overlay]}>
                 <View>
@@ -130,15 +122,12 @@ class WalletScreen extends Component {
         </View>
 
         <View>
-          <Card style={{ container: styles.expenseCard }}>
+          <Card>
             <ImageBackground
               style={{
                 width: '100%'
               }}
-              source={{
-                uri:
-                  'https://images.pexels.com/photos/50987/money-card-business-credit-card-50987.jpeg?dl&fit=crop&crop=entropy&w=640&h=426'
-              }}
+              source={ExpenseBg}
             >
               <View style={[styles.walletCard, styles.overlay]}>
                 <View>
@@ -149,15 +138,12 @@ class WalletScreen extends Component {
             </ImageBackground>
           </Card>
 
-          <Card style={{ container: styles.savingCard }}>
+          <Card>
             <ImageBackground
               style={{
                 width: '100%'
               }}
-              source={{
-                uri:
-                  'https://images.pexels.com/photos/221534/pexels-photo-221534.jpeg?dl&fit=crop&crop=entropy&w=640&h=544'
-              }}
+              source={SavingBg}
             >
               <View style={[styles.walletCard, styles.overlay]}>
                 <View>

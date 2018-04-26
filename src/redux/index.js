@@ -91,7 +91,8 @@ class ReduxNavigation extends Component<Props> {
 }
 
 const mapStateToProps = state => ({
-  nav: state.nav
+  nav: state.nav,
+  getSettings: state.getSettings
 });
 
 const AppWithNavigationState = connect(mapStateToProps)(ReduxNavigation);

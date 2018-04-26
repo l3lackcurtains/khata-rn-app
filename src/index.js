@@ -10,8 +10,8 @@ import { store, AppWithNavigationState } from './redux';
 const uiTheme = {
   fontFamily: 'Roboto',
   palette: {
-    primaryColor: '#2c3e50',
-    accentColor: '#e67e22',
+    primaryColor: '#0984e3',
+    accentColor: '#2c3e50',
     primaryTextColor: '#18232d',
     secondaryTextColor: '#666',
     alternateTextColor: '#FAFAFA',

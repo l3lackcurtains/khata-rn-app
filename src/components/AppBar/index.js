@@ -2,6 +2,7 @@ import React from 'react';
 import { Toolbar } from 'react-native-material-ui';
 
 const AppBar = () => (
+  // TODO: Logo
   <Toolbar
     centerElement="Khata"
     style={{
