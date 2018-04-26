@@ -63,17 +63,34 @@ const styles = StyleSheet.create({
     marginRight: 16,
     fontSize: 16,
     fontFamily: 'lato-regular'
+  },
+  expenseDate: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#0984e3'
+  },
+  expenseMonth: {
+    fontSize: 12,
+    color: '#555'
+  },
+  expenseFrom: {
+    fontSize: 16,
+    paddingBottom: 4
+  },
+  expenseMeta: {
+    fontSize: 14,
+    color: '#555'
   }
 });
 
 class ExpenseScreen extends Component {
   state = {
     updateModal: false,
-    expenseFrom: null,
-    expenseAmount: null,
-    expenseFromUpdate: null,
-    expenseAmountUpdate: null,
-    currentId: null,
+    expenseFrom: '',
+    expenseAmount: '',
+    expenseFromUpdate: '',
+    expenseAmountUpdate: '',
+    currentId: '',
     totalAmount: 0
   };
 
@@ -228,20 +245,29 @@ class ExpenseScreen extends Component {
               <Card>
                 <ListItem
                   divider
+                  dense
+                  numberOfLines="dynamic"
                   style={{
-                    primaryText: {
-                      fontFamily: 'Roboto'
-                    },
-                    secondaryText: {
-                      fontFamily: 'Roboto'
+                    centerElementContainer: {
+                      marginLeft: -20
                     }
                   }}
-                  centerElement={{
-                    primaryText: item.expenseFrom,
-                    secondaryText: `${moment(item.createdAt).calendar()} · ${moment(
-                      item.createdAt
-                    ).format('D MMMM, YYYY')}`
-                  }}
+                  centerElement={
+                    <View>
+                      <PText style={styles.expenseFrom}>{item.expenseFrom}</PText>
+                      <PText style={styles.expenseMeta}>{moment(item.createdAt).calendar()}</PText>
+                    </View>
+                  }
+                  leftElement={
+                    <View>
+                      <H2Text style={styles.expenseDate}>
+                        {moment(item.createdAt).format('D')}
+                      </H2Text>
+                      <PText style={styles.expenseMonth}>
+                        {moment(item.createdAt).format('MMMM')}
+                      </PText>
+                    </View>
+                  }
                   rightElement={
                     <H2Text style={styles.expensePrice}>{`${currencyCode} ${
                       item.expenseAmount
@@ -255,7 +281,6 @@ class ExpenseScreen extends Component {
         )}
         <ModalBox
           visible={this.state.updateModal}
-          animationType="none"
           onRequestClose={() => this.closeModal('updateModal')}
           transparent
           title="Edit Expense"

@@ -63,17 +63,34 @@ const styles = StyleSheet.create({
     marginRight: 16,
     fontSize: 16,
     fontFamily: 'lato-regular'
+  },
+  savingDate: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#0984e3'
+  },
+  savingMonth: {
+    fontSize: 12,
+    color: '#555'
+  },
+  savingFrom: {
+    fontSize: 16,
+    paddingBottom: 4
+  },
+  savingMeta: {
+    fontSize: 14,
+    color: '#555'
   }
 });
 
 class SavingScreen extends Component {
   state = {
     updateModal: false,
-    savingFrom: null,
-    savingAmount: null,
-    savingFromUpdate: null,
-    savingAmountUpdate: null,
-    currentId: null,
+    savingFrom: '',
+    savingAmount: '',
+    savingFromUpdate: '',
+    savingAmountUpdate: '',
+    currentId: '',
     totalAmount: 0
   };
 
@@ -228,20 +245,29 @@ class SavingScreen extends Component {
               <Card>
                 <ListItem
                   divider
+                  dense
+                  numberOfLines="dynamic"
                   style={{
-                    primaryText: {
-                      fontFamily: 'Roboto'
-                    },
-                    secondaryText: {
-                      fontFamily: 'Roboto'
+                    centerElementContainer: {
+                      marginLeft: -20
                     }
                   }}
-                  centerElement={{
-                    primaryText: item.savingFrom,
-                    secondaryText: `${moment(item.createdAt).calendar()} · ${moment(
-                      item.createdAt
-                    ).format('D MMMM, YYYY')}`
-                  }}
+                  centerElement={
+                    <View>
+                      <PText style={styles.savingFrom}>{item.savingFrom}</PText>
+                      <PText style={styles.savingMeta}>{moment(item.createdAt).calendar()}</PText>
+                    </View>
+                  }
+                  leftElement={
+                    <View>
+                      <H2Text style={styles.savingDate}>
+                        {moment(item.createdAt).format('D')}
+                      </H2Text>
+                      <PText style={styles.savingMonth}>
+                        {moment(item.createdAt).format('MMMM')}
+                      </PText>
+                    </View>
+                  }
                   rightElement={
                     <H2Text style={styles.savingPrice}>{`${currencyCode} ${
                       item.savingAmount
@@ -255,7 +281,6 @@ class SavingScreen extends Component {
         )}
         <ModalBox
           visible={this.state.updateModal}
-          animationType="none"
           onRequestClose={() => this.closeModal('updateModal')}
           transparent
           title="Edit Saving"

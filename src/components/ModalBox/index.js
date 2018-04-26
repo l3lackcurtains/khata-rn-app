@@ -43,7 +43,7 @@ const ModalBox = props => {
   return (
     <Modal {...otherProps}>
       <TouchableOpacity style={styles.modalView} onPress={otherProps.onRequestClose}>
-        <Motion defaultStyle={{ marginLeft: 1000 }} style={{ marginLeft: spring(0) }}>
+        <Motion defaultStyle={{ marginLeft: 500 }} style={{ marginLeft: spring(0) }}>
           {({ marginLeft }) => (
             <Card style={{ container: { ...StyleSheet.flatten([styles.dialogBox]), marginLeft } }}>
               <View style={styles.dialogBoxTitle}>

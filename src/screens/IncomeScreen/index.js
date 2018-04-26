@@ -86,11 +86,11 @@ const styles = StyleSheet.create({
 class IncomeScreen extends Component {
   state = {
     updateModal: false,
-    incomeFrom: null,
-    incomeAmount: null,
-    incomeFromUpdate: null,
-    incomeAmountUpdate: null,
-    currentId: null,
+    incomeFrom: '',
+    incomeAmount: '',
+    incomeFromUpdate: '',
+    incomeAmountUpdate: '',
+    currentId: '',
     totalAmount: 0
   };
 
@@ -281,7 +281,6 @@ class IncomeScreen extends Component {
         )}
         <ModalBox
           visible={this.state.updateModal}
-          animationType="none"
           onRequestClose={() => this.closeModal('updateModal')}
           transparent
           title="Edit Income"
