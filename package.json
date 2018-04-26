@@ -29,7 +29,9 @@
     "ios": "react-native-scripts ios",
     "test": "node node_modules/jest/bin/jest.js",
     "lint": "eslint src/",
-    "flow": "flow"
+    "flow": "flow",
+    "precommit": "pretty-quick --stage",
+    "prettier": "prettier --write src/**/*.js"
   },
   "jest": {
     "preset": "jest-expo"

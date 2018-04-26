@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { BackHandler, AsyncStorage } from 'react-native';
+import { BackHandler } from 'react-native';
 import { addNavigationHelpers } from 'react-navigation';
 import {
   createReduxBoundAddListener,
