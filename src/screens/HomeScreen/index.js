@@ -35,7 +35,7 @@ class HomeScreen extends Component {
   });
 
   state = {
-    active: 'income'
+    active: 'wallet'
   };
 
   componentDidMount = async () => {

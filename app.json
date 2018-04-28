@@ -15,11 +15,6 @@
 	 "package": "com.crumet.khataapp",
 	 "versionCode": 1,
 	 "permissions": []
-   },
-   "splash": {
-    "backgroundColor": "#2c3e50",
-    "hdpi": "./src/assets/images/wallet.png",
-    "resizeMode": "contain"
    }
   }
 }

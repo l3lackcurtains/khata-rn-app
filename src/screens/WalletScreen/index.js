@@ -107,7 +107,8 @@ class WalletScreen extends Component {
           <Card>
             <ImageBackground
               style={{
-                width: '100%'
+                width: '100%',
+                backgroundColor: '#fff'
               }}
               source={IncomeBg}
             >
@@ -125,7 +126,8 @@ class WalletScreen extends Component {
           <Card>
             <ImageBackground
               style={{
-                width: '100%'
+                width: '100%',
+                backgroundColor: '#fff'
               }}
               source={ExpenseBg}
             >
@@ -141,7 +143,8 @@ class WalletScreen extends Component {
           <Card>
             <ImageBackground
               style={{
-                width: '100%'
+                width: '100%',
+                backgroundColor: '#fff'
               }}
               source={SavingBg}
             >
