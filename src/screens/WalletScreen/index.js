@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { View, StyleSheet, Image, ImageBackground } from 'react-native';
 import { Card } from 'react-native-material-ui';
 
+import Translate from '../../utils/Translate';
 import { LPText, LH1Text } from '../../components/Text';
 import WalletImage from '../../assets/images/wallet.png';
 import IncomeBg from '../../assets/images/income-bg.jpeg';
@@ -95,10 +96,13 @@ class WalletScreen extends Component {
           <View style={styles.walletCard}>
             <Image style={styles.walletImage} source={WalletImage} />
             <View>
-              <LH1Text style={{ fontSize: 40 }}>{`${currencyCode} ${
-                this.state.totalWalletAmount
-              }`}</LH1Text>
-              <LPText>Amount in Wallet.</LPText>
+              <LH1Text style={{ fontSize: 40 }}>
+                {`${currencyCode} `}
+                <Translate id="number">{this.state.totalWalletAmount}</Translate>
+              </LH1Text>
+              <LPText>
+                <Translate id="wallet">Wallet</Translate>
+              </LPText>
             </View>
           </View>
         </View>
@@ -114,8 +118,13 @@ class WalletScreen extends Component {
             >
               <View style={[styles.walletCard, styles.overlay]}>
                 <View>
-                  <LH1Text>{`${currencyCode} ${this.state.totalIncomesAmount}`}</LH1Text>
-                  <LPText>Incomes</LPText>
+                  <LH1Text>
+                    {`${currencyCode} `}
+                    <Translate id="number">{this.state.totalIncomesAmount}</Translate>
+                  </LH1Text>
+                  <LPText>
+                    <Translate id="income">Incomes</Translate>
+                  </LPText>
                 </View>
               </View>
             </ImageBackground>
@@ -133,8 +142,13 @@ class WalletScreen extends Component {
             >
               <View style={[styles.walletCard, styles.overlay]}>
                 <View>
-                  <LH1Text>{`${currencyCode} ${this.state.totalExpensesAmount}`}</LH1Text>
-                  <LPText>Expenses</LPText>
+                  <LH1Text>
+                    {`${currencyCode} `}
+                    <Translate id="number">{this.state.totalExpensesAmount}</Translate>
+                  </LH1Text>
+                  <LPText>
+                    <Translate id="expense">Expenses</Translate>
+                  </LPText>
                 </View>
               </View>
             </ImageBackground>
@@ -150,8 +164,13 @@ class WalletScreen extends Component {
             >
               <View style={[styles.walletCard, styles.overlay]}>
                 <View>
-                  <LH1Text>{`${currencyCode} ${this.state.totalSavingsAmount}`}</LH1Text>
-                  <LPText>Savings</LPText>
+                  <LH1Text>
+                    {`${currencyCode} `}
+                    <Translate id="number">{this.state.totalSavingsAmount}</Translate>
+                  </LH1Text>
+                  <LPText>
+                    <Translate id="saving">Savings</Translate>
+                  </LPText>
                 </View>
               </View>
             </ImageBackground>

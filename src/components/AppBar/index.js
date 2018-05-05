@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Image } from 'react-native';
 import { Toolbar } from 'react-native-material-ui';
-
+import Translate from '../../utils/Translate';
 import { LPText } from '../Text';
 import logo from '../../assets/images/Khata-light.png';
 
@@ -13,7 +13,7 @@ const AppBar = () => (
         <LPText
           style={{ fontSize: 28, fontWeight: '500', fontFamily: 'cabin-regular', marginLeft: 12 }}
         >
-          Khata
+          <Translate id="khata">Khata</Translate>
         </LPText>
       </View>
     }

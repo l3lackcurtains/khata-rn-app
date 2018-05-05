@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
 import { BottomNavigation } from 'react-native-material-ui';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
+import moment from 'moment';
 
+import { translateText } from '../../utils/helper';
 import AppBar from '../../components/AppBar';
 import WalletScreen from '../WalletScreen';
 import ExpenseScreen from '../ExpenseScreen';
 import IncomeScreen from '../IncomeScreen';
 import SavingScreen from '../SavingScreen';
 import MoreScreen from '../MoreScreen';
-
 import { getExpensesReq } from '../../redux/actions/expenseAc';
 import { getIncomesReq } from '../../redux/actions/incomeAc';
 import { getSavingsReq } from '../../redux/actions/savingAc';
@@ -46,7 +47,18 @@ class HomeScreen extends Component {
   };
 
   render() {
-    const { getExpenses, getIncomes, getSavings } = this.props;
+    const { getExpenses, getIncomes, getSavings, getSettings } = this.props;
+    const lan = getSettings.data.language;
+
+    // Changing Moment Language
+    if (lan === 'Nepali') {
+      /* eslint-disable */
+      require('moment/locale/ne');
+      moment.locale('ne');
+      /* eslint-enable */
+    } else {
+      moment.locale('en');
+    }
     return (
       <View style={styles.main}>
         <AppBar />
@@ -71,31 +83,31 @@ class HomeScreen extends Component {
           <BottomNavigation.Action
             key="wallet"
             icon={<Entypo name="wallet" size={24} />}
-            label="Wallet"
+            label={translateText(lan, 'wallet', 'Wallet')}
             onPress={() => this.setState({ active: 'wallet' })}
           />
           <BottomNavigation.Action
             key="income"
             icon={<MaterialIcons name="add-circle-outline" size={24} />}
-            label="Income"
+            label={translateText(lan, 'income', 'Income')}
             onPress={() => this.setState({ active: 'income' })}
           />
           <BottomNavigation.Action
             key="expense"
             icon={<MaterialIcons name="remove-circle-outline" size={24} />}
-            label="Expenses"
+            label={translateText(lan, 'expense', 'Expense')}
             onPress={() => this.setState({ active: 'expense' })}
           />
           <BottomNavigation.Action
             key="saving"
             icon={<Entypo name="save" size={24} />}
-            label="Savings"
+            label={translateText(lan, 'saving', 'Saving')}
             onPress={() => this.setState({ active: 'saving' })}
           />
           <BottomNavigation.Action
             key="more"
             icon={<MaterialIcons name="more-horiz" size={24} />}
-            label="More"
+            label={translateText(lan, 'more', 'more')}
             onPress={() => this.setState({ active: 'more' })}
           />
         </BottomNavigation>
@@ -108,5 +120,5 @@ export default connect(state => ({
   getExpenses: state.getExpenses,
   getIncomes: state.getIncomes,
   getSavings: state.getSavings,
-  darkTheme: state.getSettings.data.theme === 'dark'
+  getSettings: state.getSettings
 }))(HomeScreen);

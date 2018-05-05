@@ -4,6 +4,7 @@ import { View, StyleSheet, FlatList, Keyboard } from 'react-native';
 import { ListItem, Card } from 'react-native-material-ui';
 import { connect } from 'react-redux';
 
+import { translateText } from '../../utils/helper';
 import { PText, H2Text, LH1Text } from '../../components/Text';
 import { PrimaryButton, SecondaryButton } from '../../components/Button';
 import { TextField, LTextField } from '../../components/Input';
@@ -18,6 +19,7 @@ import {
   removeSavingReq,
   removeSavingReset
 } from '../../redux/actions/savingAc';
+import Translate from '../../utils/Translate';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -202,7 +204,7 @@ class SavingScreen extends Component {
   render() {
     const savings = this.props.getSavings;
     const { totalAmount } = this.state;
-    const { currencyCode } = this.props.getSettings.data;
+    const { currencyCode, language } = this.props.getSettings.data;
     return (
       <View style={styles.wrapper}>
         <View style={styles.topBox}>
@@ -210,23 +212,26 @@ class SavingScreen extends Component {
             <LTextField
               style={styles.savingAddFormField}
               name="savingFrom"
-              label="Saving From"
+              label={translateText(language, 'savingFrom', 'Saving From')}
               value={this.state.savingFrom}
               onChangeText={value => this.onChangeField('savingFrom', value)}
             />
             <LTextField
               style={styles.savingAddFormField}
               name="savingAmount"
-              label="Amount"
+              label={translateText(language, 'amount', 'Amount')}
               keyboardType="phone-pad"
               value={this.state.savingAmount}
               onChangeText={value => this.onChangeField('savingAmount', value)}
             />
           </View>
           <View style={styles.savingButton}>
-            <LH1Text style={styles.savingTotalPrice}>{`${currencyCode} ${totalAmount}`}</LH1Text>
+            <LH1Text style={styles.savingTotalPrice}>
+              {`${currencyCode} `}
+              <Translate id="number">{totalAmount}</Translate>
+            </LH1Text>
             <PrimaryButton
-              text="Add Saving"
+              text={translateText(language, 'addSaving', 'Add Saving')}
               disabled={!this.state.savingFrom || !this.state.savingAmount}
               onPress={this.onAddSaving}
             />
@@ -269,9 +274,10 @@ class SavingScreen extends Component {
                     </View>
                   }
                   rightElement={
-                    <H2Text style={styles.savingPrice}>{`${currencyCode} ${
-                      item.savingAmount
-                    }`}</H2Text>
+                    <H2Text style={styles.savingPrice}>
+                      {`${currencyCode} `}
+                      <Translate id="number">{item.savingAmount}</Translate>
+                    </H2Text>
                   }
                   onPress={() => this.openUpdateModal(item)}
                 />
@@ -283,17 +289,17 @@ class SavingScreen extends Component {
           visible={this.state.updateModal}
           onRequestClose={() => this.closeModal('updateModal')}
           transparent
-          title="Edit Saving"
+          title={translateText(language, 'editSaving', 'Edit Saving')}
           primaryAction={
             <PrimaryButton
-              text="Update"
+              text={translateText(language, 'update', 'Update')}
               onPress={this.onUpdateSaving}
               disabled={!this.state.savingFromUpdate || !this.state.savingAmountUpdate}
             />
           }
           secondaryAction={
             <SecondaryButton
-              text="Delete"
+              text={translateText(language, 'delete', 'Delete')}
               style={{ text: { color: 'red' } }}
               onPress={this.onRemoveSaving}
             />
@@ -301,13 +307,13 @@ class SavingScreen extends Component {
         >
           <TextField
             name="savingFromUpdate"
-            label="Saving From"
+            label={translateText(language, 'savingFrom', 'Saving From')}
             value={this.state.savingFromUpdate}
             onChangeText={value => this.onChangeField('savingFromUpdate', value)}
           />
           <TextField
             name="savingAmountUpdate"
-            label="Amount"
+            label={translateText(language, 'amount', 'Amount')}
             keyboardType="phone-pad"
             value={this.state.savingAmountUpdate}
             onChangeText={value => this.onChangeField('savingAmountUpdate', value)}

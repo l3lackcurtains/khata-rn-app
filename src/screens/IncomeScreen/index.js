@@ -4,6 +4,7 @@ import { View, StyleSheet, FlatList, Keyboard } from 'react-native';
 import { ListItem, Card } from 'react-native-material-ui';
 import { connect } from 'react-redux';
 
+import { translateText } from '../../utils/helper';
 import { PText, H2Text, LH1Text } from '../../components/Text';
 import { PrimaryButton, SecondaryButton } from '../../components/Button';
 import { TextField, LTextField } from '../../components/Input';
@@ -18,6 +19,7 @@ import {
   removeIncomeReq,
   removeIncomeReset
 } from '../../redux/actions/incomeAc';
+import Translate from '../../utils/Translate';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -202,7 +204,7 @@ class IncomeScreen extends Component {
   render() {
     const incomes = this.props.getIncomes;
     const { totalAmount } = this.state;
-    const { currencyCode } = this.props.getSettings.data;
+    const { currencyCode, language } = this.props.getSettings.data;
     return (
       <View style={styles.wrapper}>
         <View style={styles.topBox}>
@@ -210,23 +212,26 @@ class IncomeScreen extends Component {
             <LTextField
               style={styles.incomeAddFormField}
               name="incomeFrom"
-              label="Income From"
+              label={translateText(language, 'incomeFrom', 'Income From')}
               value={this.state.incomeFrom}
               onChangeText={value => this.onChangeField('incomeFrom', value)}
             />
             <LTextField
               style={styles.incomeAddFormField}
               name="incomeAmount"
-              label="Amount"
+              label={translateText(language, 'amount', 'Amount')}
               keyboardType="phone-pad"
               value={this.state.incomeAmount}
               onChangeText={value => this.onChangeField('incomeAmount', value)}
             />
           </View>
           <View style={styles.incomeButton}>
-            <LH1Text style={styles.incomeTotalPrice}>{`${currencyCode} ${totalAmount}`}</LH1Text>
+            <LH1Text style={styles.incomeTotalPrice}>
+              {`${currencyCode} `}
+              <Translate id="number">{totalAmount}</Translate>
+            </LH1Text>
             <PrimaryButton
-              text="Add Income"
+              text={translateText(language, 'addIncome', 'Add Income')}
               disabled={!this.state.incomeFrom || !this.state.incomeAmount}
               onPress={this.onAddIncome}
             />
@@ -269,9 +274,10 @@ class IncomeScreen extends Component {
                     </View>
                   }
                   rightElement={
-                    <H2Text style={styles.incomePrice}>{`${currencyCode} ${
-                      item.incomeAmount
-                    }`}</H2Text>
+                    <H2Text style={styles.incomePrice}>
+                      {`${currencyCode} `}
+                      <Translate id="number">{item.incomeAmount}</Translate>
+                    </H2Text>
                   }
                   onPress={() => this.openUpdateModal(item)}
                 />
@@ -283,17 +289,17 @@ class IncomeScreen extends Component {
           visible={this.state.updateModal}
           onRequestClose={() => this.closeModal('updateModal')}
           transparent
-          title="Edit Income"
+          title={translateText(language, 'editIncome', 'Edit Income')}
           primaryAction={
             <PrimaryButton
-              text="Update"
+              text={translateText(language, 'update', 'Update')}
               onPress={this.onUpdateIncome}
               disabled={!this.state.incomeFromUpdate || !this.state.incomeAmountUpdate}
             />
           }
           secondaryAction={
             <SecondaryButton
-              text="Delete"
+              text={translateText(language, 'delete', 'Delete')}
               style={{ text: { color: 'red' } }}
               onPress={this.onRemoveIncome}
             />
@@ -301,13 +307,13 @@ class IncomeScreen extends Component {
         >
           <TextField
             name="incomeFromUpdate"
-            label="Income From"
+            label={translateText(language, 'incomeFrom', 'Income From')}
             value={this.state.incomeFromUpdate}
             onChangeText={value => this.onChangeField('incomeFromUpdate', value)}
           />
           <TextField
             name="incomeAmountUpdate"
-            label="Amount"
+            label={translateText(language, 'amount', 'Amount')}
             keyboardType="phone-pad"
             value={this.state.incomeAmountUpdate}
             onChangeText={value => this.onChangeField('incomeAmountUpdate', value)}

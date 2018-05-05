@@ -49,7 +49,9 @@ export function* getSavingsSaga() {
 function* addSaving(action) {
   try {
     const { savingAmount, savingFrom } = action.query;
-    const createdAt = moment().format();
+    const createdAt = moment()
+      .locale('en')
+      .format();
     const id = md5.hex_md5(createdAt);
 
     const savingJSON = {

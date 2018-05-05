@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
-import { ListItem } from 'react-native-material-ui';
+import { ListItem, RadioButton } from 'react-native-material-ui';
 
+import Translate from '../../utils/Translate';
 import { PText } from '../../components/Text';
 import { TextField } from '../../components/Input';
 import ModalBox from '../../components/ModalBox';
@@ -19,19 +20,34 @@ const styles = StyleSheet.create({
     padding: 0
   },
   listItem: {
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
+    height: 65
+  },
+  languageButtonGroup: {
+    height: 100
+  },
+  settingTitle: {
+    fontSize: 16,
+    paddingBottom: 4
+  },
+  settingMeta: {
+    fontSize: 14,
+    color: '#555'
   }
 });
 
 class MoreScreen extends Component {
   state = {
     currencyModal: false,
-    currencyCode: ''
+    currencyCode: '',
+    languageModal: false,
+    language: 'English'
   };
 
   componentDidMount = () => {
     this.setState({
-      currencyCode: this.props.getSettings.data.currencyCode
+      currencyCode: this.props.getSettings.data.currencyCode,
+      language: this.props.getSettings.data.language
     });
   };
 
@@ -63,50 +79,74 @@ class MoreScreen extends Component {
     );
   };
 
+  changeLanguage = value => {
+    this.setState(
+      {
+        language: value
+      },
+      () => {
+        const query = {
+          language: this.state.language
+        };
+        this.props.dispatch(updateSettingReq(query));
+      }
+    );
+  };
+
   render() {
-    const { currencyCode } = this.state;
+    const { currencyCode, language } = this.state;
     return (
       <View style={styles.wrapper}>
         <ListItem
-          style={{ contentViewContainer: styles.listItem }}
+          style={{
+            container: styles.listItem
+          }}
           divider
           dense
-          centerElement={{
-            primaryText: 'Language',
-            secondaryText: 'Choose your prefered Language.'
-          }}
-          rightElement={<PText>English</PText>}
-          onPress={() => {}}
+          centerElement={
+            <View>
+              <PText style={styles.settingTitle}>
+                <Translate id="language">Language</Translate>
+              </PText>
+              <PText style={styles.settingMeta}>
+                <Translate id="languageMeta">Choose your prefered Language.</Translate>
+              </PText>
+            </View>
+          }
+          rightElement={<PText>{language}</PText>}
+          onPress={() => this.setState({ languageModal: true })}
         />
         <ListItem
-          style={{ contentViewContainer: styles.listItem }}
+          style={{ container: styles.listItem }}
           divider
           dense
-          centerElement={{
-            primaryText: 'Currency Symbol',
-            secondaryText: 'Choose your prefered currency symbol.'
-          }}
+          centerElement={
+            <View>
+              <PText style={styles.settingTitle}>
+                <Translate id="currency">Currency Symbol</Translate>
+              </PText>
+              <PText style={styles.settingMeta}>
+                <Translate id="currencyMeta">Choose your prefered currency symbol.</Translate>
+              </PText>
+            </View>
+          }
           rightElement={<PText>{currencyCode}</PText>}
           onPress={() => this.setState({ currencyModal: true })}
         />
         <ListItem
-          style={{ contentViewContainer: styles.listItem }}
+          style={{ container: styles.listItem }}
           divider
           dense
-          centerElement={{
-            primaryText: 'Export',
-            secondaryText: 'Export your khata records.'
-          }}
-          onPress={() => {}}
-        />
-        <ListItem
-          style={{ contentViewContainer: styles.listItem }}
-          divider
-          dense
-          centerElement={{
-            primaryText: 'Import',
-            secondaryText: 'Import khata records.'
-          }}
+          centerElement={
+            <View>
+              <PText style={styles.settingTitle}>
+                <Translate id="export">Export</Translate>
+              </PText>
+              <PText style={styles.settingMeta}>
+                <Translate id="exportMeta">Export your khata records.</Translate>
+              </PText>
+            </View>
+          }
           onPress={() => {}}
         />
 
@@ -122,6 +162,28 @@ class MoreScreen extends Component {
             value={this.state.currencyCode}
             onChangeText={value => this.changeCurrencyCode(value)}
           />
+        </ModalBox>
+
+        <ModalBox
+          visible={this.state.languageModal}
+          onRequestClose={() => this.closeModal('languageModal')}
+          transparent
+          title="Change language"
+        >
+          <View style={styles.languageButtonGroup}>
+            <RadioButton
+              label="English"
+              checked={this.state.language === 'English'}
+              value="English"
+              onSelect={checked => this.changeLanguage(checked)}
+            />
+            <RadioButton
+              label="Nepali"
+              checked={this.state.language === 'Nepali'}
+              value="Nepali"
+              onSelect={checked => this.changeLanguage(checked)}
+            />
+          </View>
         </ModalBox>
       </View>
     );

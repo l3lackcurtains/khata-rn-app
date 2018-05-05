@@ -24,7 +24,7 @@ function* getSettings() {
     } else {
       getSettingsJSON = {
         currencyCode: 'Rs.',
-        theme: 'light'
+        language: 'English'
       };
       const settingString = JSON.stringify(getSettingsJSON);
       yield AsyncStorage.setItem('@settings', settingString);

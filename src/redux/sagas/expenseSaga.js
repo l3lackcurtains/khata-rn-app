@@ -49,7 +49,9 @@ export function* getExpensesSaga() {
 function* addExpense(action) {
   try {
     const { expenseAmount, expenseFrom } = action.query;
-    const createdAt = moment().format();
+    const createdAt = moment()
+      .locale('en')
+      .format();
     const id = md5.hex_md5(createdAt);
 
     const expenseJSON = {

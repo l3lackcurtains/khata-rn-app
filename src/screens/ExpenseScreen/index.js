@@ -4,6 +4,7 @@ import { View, StyleSheet, FlatList, Keyboard } from 'react-native';
 import { ListItem, Card } from 'react-native-material-ui';
 import { connect } from 'react-redux';
 
+import { translateText } from '../../utils/helper';
 import { PText, H2Text, LH1Text } from '../../components/Text';
 import { PrimaryButton, SecondaryButton } from '../../components/Button';
 import { TextField, LTextField } from '../../components/Input';
@@ -18,6 +19,7 @@ import {
   removeExpenseReq,
   removeExpenseReset
 } from '../../redux/actions/expenseAc';
+import Translate from '../../utils/Translate';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -202,7 +204,7 @@ class ExpenseScreen extends Component {
   render() {
     const expenses = this.props.getExpenses;
     const { totalAmount } = this.state;
-    const { currencyCode } = this.props.getSettings.data;
+    const { currencyCode, language } = this.props.getSettings.data;
     return (
       <View style={styles.wrapper}>
         <View style={styles.topBox}>
@@ -210,23 +212,26 @@ class ExpenseScreen extends Component {
             <LTextField
               style={styles.expenseAddFormField}
               name="expenseFrom"
-              label="Expense From"
+              label={translateText(language, 'expenseFrom', 'Expense From')}
               value={this.state.expenseFrom}
               onChangeText={value => this.onChangeField('expenseFrom', value)}
             />
             <LTextField
               style={styles.expenseAddFormField}
               name="expenseAmount"
-              label="Amount"
+              label={translateText(language, 'amount', 'Amount')}
               keyboardType="phone-pad"
               value={this.state.expenseAmount}
               onChangeText={value => this.onChangeField('expenseAmount', value)}
             />
           </View>
           <View style={styles.expenseButton}>
-            <LH1Text style={styles.expenseTotalPrice}>{`${currencyCode} ${totalAmount}`}</LH1Text>
+            <LH1Text style={styles.expenseTotalPrice}>
+              {`${currencyCode} `}
+              <Translate id="number">{totalAmount}</Translate>
+            </LH1Text>
             <PrimaryButton
-              text="Add Expense"
+              text={translateText(language, 'addExpense', 'Add Expense')}
               disabled={!this.state.expenseFrom || !this.state.expenseAmount}
               onPress={this.onAddExpense}
             />
@@ -269,9 +274,10 @@ class ExpenseScreen extends Component {
                     </View>
                   }
                   rightElement={
-                    <H2Text style={styles.expensePrice}>{`${currencyCode} ${
-                      item.expenseAmount
-                    }`}</H2Text>
+                    <H2Text style={styles.expensePrice}>
+                      {`${currencyCode} `}
+                      <Translate id="number">{item.expenseAmount}</Translate>
+                    </H2Text>
                   }
                   onPress={() => this.openUpdateModal(item)}
                 />
@@ -283,17 +289,17 @@ class ExpenseScreen extends Component {
           visible={this.state.updateModal}
           onRequestClose={() => this.closeModal('updateModal')}
           transparent
-          title="Edit Expense"
+          title={translateText(language, 'editExpense', 'Edit Expense')}
           primaryAction={
             <PrimaryButton
-              text="Update"
+              text={translateText(language, 'update', 'Update')}
               onPress={this.onUpdateExpense}
               disabled={!this.state.expenseFromUpdate || !this.state.expenseAmountUpdate}
             />
           }
           secondaryAction={
             <SecondaryButton
-              text="Delete"
+              text={translateText(language, 'delete', 'Delete')}
               style={{ text: { color: 'red' } }}
               onPress={this.onRemoveExpense}
             />
@@ -301,13 +307,13 @@ class ExpenseScreen extends Component {
         >
           <TextField
             name="expenseFromUpdate"
-            label="Expense From"
+            label={translateText(language, 'expenseFrom', 'Expense From')}
             value={this.state.expenseFromUpdate}
             onChangeText={value => this.onChangeField('expenseFromUpdate', value)}
           />
           <TextField
             name="expenseAmountUpdate"
-            label="Amount"
+            label={translateText(language, 'amount', 'Amount')}
             keyboardType="phone-pad"
             value={this.state.expenseAmountUpdate}
             onChangeText={value => this.onChangeField('expenseAmountUpdate', value)}
