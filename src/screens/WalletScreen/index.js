@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, StyleSheet, Image, ImageBackground } from 'react-native';
+import { View, StyleSheet, ImageBackground } from 'react-native';
 import { Card } from 'react-native-material-ui';
 
 import Translate from '../../utils/Translate';
 import { LPText, LH1Text } from '../../components/Text';
-import WalletImage from '../../assets/images/wallet.png';
 import IncomeBg from '../../assets/images/income-bg.jpeg';
 import ExpenseBg from '../../assets/images/expense-bg.jpeg';
 import SavingBg from '../../assets/images/saving-bg.jpeg';
@@ -21,6 +20,11 @@ const styles = StyleSheet.create({
     paddingTop: 24,
     paddingBottom: 48
   },
+  walletAmount: {
+    padding: 16,
+    flexDirection: 'row',
+    marginLeft: 8
+  },
   walletCard: {
     padding: 16,
     flexDirection: 'row'
@@ -31,7 +35,7 @@ const styles = StyleSheet.create({
     marginRight: 32
   },
   overlay: {
-    backgroundColor: 'rgba(0,0,0,0.4)'
+    backgroundColor: 'rgba(0,0,0,0.6)'
   }
 });
 
@@ -45,22 +49,31 @@ class WalletScreen extends Component {
 
   componentDidMount() {
     if (
-      this.props.getExpenses.isReceived &&
-      this.props.getIncomes.isReceived &&
-      this.props.getSavings.isReceived
+      this.props.getExpenses.data !== null &&
+      this.props.getIncomes.data !== null &&
+      this.props.getSavings.data !== null
     ) {
-      if (
-        this.props.getExpenses.data !== null &&
-        this.props.getIncomes.data !== null &&
-        this.props.getSavings.data !== null
-      ) {
-        // update on changes
-        this.updateWalletAmount(
-          this.props.getIncomes.data,
-          this.props.getExpenses.data,
-          this.props.getSavings.data
-        );
-      }
+      // update on changes
+      this.updateWalletAmount(
+        this.props.getIncomes.data,
+        this.props.getExpenses.data,
+        this.props.getSavings.data
+      );
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.getExpenses.data !== null &&
+      nextProps.getIncomes.data !== null &&
+      nextProps.getSavings.data !== null
+    ) {
+      // update on changes
+      this.updateWalletAmount(
+        nextProps.getIncomes.data,
+        nextProps.getExpenses.data,
+        nextProps.getSavings.data
+      );
     }
   }
 
@@ -93,16 +106,15 @@ class WalletScreen extends Component {
     return (
       <View style={styles.wrapper}>
         <View style={styles.topBox}>
-          <View style={styles.walletCard}>
-            <Image style={styles.walletImage} source={WalletImage} />
+          <View style={styles.walletAmount}>
             <View>
+              <LPText>
+                <Translate id="inWallet">In your wallet</Translate>
+              </LPText>
               <LH1Text style={{ fontSize: 40 }}>
                 {`${currencyCode} `}
                 <Translate id="number">{this.state.totalWalletAmount}</Translate>
               </LH1Text>
-              <LPText>
-                <Translate id="wallet">Wallet</Translate>
-              </LPText>
             </View>
           </View>
         </View>

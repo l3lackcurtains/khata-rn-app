@@ -67,9 +67,9 @@ class HomeScreen extends Component {
         ) : this.state.active === 'expense' ? (
           <ExpenseScreen getExpenses={getExpenses} />
         ) : this.state.active === 'income' ? (
-          <IncomeScreen />
+          <IncomeScreen getIncomes={getIncomes} />
         ) : this.state.active === 'saving' ? (
-          <SavingScreen />
+          <SavingScreen getSavings={getSavings} />
         ) : this.state.active === 'more' ? (
           <MoreScreen />
         ) : null}

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
 import { ListItem, RadioButton } from 'react-native-material-ui';
 
+import { translateText } from '../../utils/helper';
 import Translate from '../../utils/Translate';
 import { PText } from '../../components/Text';
 import { TextField } from '../../components/Input';
@@ -133,32 +134,16 @@ class MoreScreen extends Component {
           rightElement={<PText>{currencyCode}</PText>}
           onPress={() => this.setState({ currencyModal: true })}
         />
-        <ListItem
-          style={{ container: styles.listItem }}
-          divider
-          dense
-          centerElement={
-            <View>
-              <PText style={styles.settingTitle}>
-                <Translate id="export">Export</Translate>
-              </PText>
-              <PText style={styles.settingMeta}>
-                <Translate id="exportMeta">Export your khata records.</Translate>
-              </PText>
-            </View>
-          }
-          onPress={() => {}}
-        />
 
         <ModalBox
           visible={this.state.currencyModal}
           onRequestClose={() => this.closeModal('currencyModal')}
           transparent
-          title="Change Currency"
+          title={translateText(language, 'changeCurrency', 'Change Currency')}
         >
           <TextField
             name="currencyCode"
-            label="Currency Code"
+            label={translateText(language, 'currencyCode', 'Currency Code')}
             value={this.state.currencyCode}
             onChangeText={value => this.changeCurrencyCode(value)}
           />
@@ -168,7 +153,7 @@ class MoreScreen extends Component {
           visible={this.state.languageModal}
           onRequestClose={() => this.closeModal('languageModal')}
           transparent
-          title="Change language"
+          title={translateText(language, 'changeLanguage', 'Change Language')}
         >
           <View style={styles.languageButtonGroup}>
             <RadioButton
@@ -178,7 +163,7 @@ class MoreScreen extends Component {
               onSelect={checked => this.changeLanguage(checked)}
             />
             <RadioButton
-              label="Nepali"
+              label="नेपाली"
               checked={this.state.language === 'Nepali'}
               value="Nepali"
               onSelect={checked => this.changeLanguage(checked)}

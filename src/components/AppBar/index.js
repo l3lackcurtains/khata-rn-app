@@ -11,7 +11,7 @@ const AppBar = () => (
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Image style={{ height: 35, width: 35 }} source={logo} />
         <LPText
-          style={{ fontSize: 28, fontWeight: '500', fontFamily: 'cabin-regular', marginLeft: 12 }}
+          style={{ fontSize: 28, fontWeight: '500', fontFamily: 'cabin-regular', marginLeft: 24 }}
         >
           <Translate id="khata">Khata</Translate>
         </LPText>
