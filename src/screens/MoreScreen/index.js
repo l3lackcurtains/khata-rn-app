@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Linking } from 'react-native';
 import { ListItem, RadioButton } from 'react-native-material-ui';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -144,6 +144,28 @@ class MoreScreen extends Component {
           }
           rightElement={<PText>{currencyCode}</PText>}
           onPress={() => this.setState({ currencyModal: true })}
+        />
+        <ListItem
+          style={{
+            container: styles.listItem,
+            centerElementContainer: {
+              marginLeft: -20
+            }
+          }}
+          divider
+          dense
+          leftElement={<MaterialCommunityIcons name="star-outline" size={24} />}
+          centerElement={
+            <View>
+              <PText style={styles.settingTitle}>
+                <Translate id="rate">Rate Us</Translate>
+              </PText>
+              <PText style={styles.settingMeta}>
+                <Translate id="rateMeta">Give rating and support us.</Translate>
+              </PText>
+            </View>
+          }
+          onPress={() => Linking.openURL('market://details?id=com.crumet.khataapp')}
         />
 
         <ModalBox
