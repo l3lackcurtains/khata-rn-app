@@ -7,7 +7,7 @@
    "sdkVersion": "26.0.0",
    "platforms": ["ios", "android"],
    "orientation": "portrait",
-   "androidStatusBarColor": "#212f3d",
+   "androidStatusBarColor": "#054251",
    "ios": {
 	 "bundleIdentifier": "com.crumet.khataapp"
    },
@@ -17,7 +17,7 @@
    "permissions": []
    },
    "splash": {
-      "backgroundColor": "#212f3d",
+      "backgroundColor": "#054757",
       "image": "./src/assets/images/splash-screen.png",
       "resizeMode": "contain"
     }
