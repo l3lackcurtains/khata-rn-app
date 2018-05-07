@@ -7,12 +7,15 @@ class Translate extends Component {
   state = {
     //
   };
+
   render() {
     if (!this.props.getSettings.isReceived) return null;
     const { language } = this.props.getSettings.data;
     const { id } = this.props;
+    const { np, hi } = languages;
+
+    // Nepali Language
     if (language === 'Nepali') {
-      const { np } = languages;
       if (id === 'number') {
         const nepaliNumber = transformNumberToNepali(this.props.children);
         return <React.Fragment>{nepaliNumber}</React.Fragment>;
@@ -21,6 +24,17 @@ class Translate extends Component {
       }
 
       return <React.Fragment>{np[id]}</React.Fragment>;
+
+      // Hindi Language
+    } else if (language === 'Hindi') {
+      if (id === 'number') {
+        const hindiNumber = transformNumberToNepali(this.props.children);
+        return <React.Fragment>{hindiNumber}</React.Fragment>;
+      } else if (!hi[id]) {
+        return <React.Fragment>{this.props.children}</React.Fragment>;
+      }
+
+      return <React.Fragment>{hi[id]}</React.Fragment>;
     }
     return <React.Fragment>{this.props.children}</React.Fragment>;
   }

@@ -44,13 +44,21 @@ const transformNumberToNepali = value => {
 };
 
 const translateText = (language, id, text) => {
+  const { np, hi } = languages;
+  // Nepali Language
   if (language === 'Nepali') {
-    const { np } = languages;
-    if (id === 'number' && typeof text === 'number') {
+    if (id === 'number') {
       const nepaliNumber = transformNumberToNepali(text);
       return nepaliNumber;
     }
     return np[id];
+    // Hindi Language
+  } else if (language === 'Hindi') {
+    if (id === 'number') {
+      const hindiNumber = transformNumberToNepali(text);
+      return hindiNumber;
+    }
+    return hi[id];
   }
   return text;
 };

@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     height: 65
   },
   languageButtonGroup: {
-    height: 100
+    height: 150
   },
   settingTitle: {
     fontSize: 16,
@@ -174,9 +174,15 @@ class MoreScreen extends Component {
               onSelect={checked => this.changeLanguage(checked)}
             />
             <RadioButton
-              label="नेपाली"
+              label="Nepali"
               checked={this.state.language === 'Nepali'}
               value="Nepali"
+              onSelect={checked => this.changeLanguage(checked)}
+            />
+            <RadioButton
+              label="Hindi"
+              checked={this.state.language === 'Hindi'}
+              value="Hindi"
               onSelect={checked => this.changeLanguage(checked)}
             />
           </View>

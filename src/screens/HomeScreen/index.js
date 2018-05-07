@@ -56,6 +56,11 @@ class HomeScreen extends Component {
       require('moment/locale/ne');
       moment.locale('ne');
       /* eslint-enable */
+    } else if (lan === 'Hindi') {
+      /* eslint-disable */
+      require('moment/locale/hi');
+      moment.locale('hi');
+      /* eslint-enable */
     } else {
       moment.locale('en');
     }
