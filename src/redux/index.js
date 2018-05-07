@@ -8,7 +8,6 @@ import {
 } from 'react-navigation-redux-helpers';
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { connect } from 'react-redux';
-import firebase from 'firebase';
 import createSagaMiddleware from 'redux-saga';
 
 import rootSagas from './sagas';
@@ -16,25 +15,8 @@ import rootReducers from '../redux/reducers';
 import AppNavigator from './AppNavigator';
 import { getSettingsReq } from './actions/settingAc';
 
-// flow types
-type Props = {
-  dispatch: Function,
-  nav: Object
-};
-
 // Saga Middleware
 const sagaMiddleware = createSagaMiddleware();
-
-const firebaseConfig = {
-  apiKey: 'AIzaSyBxqJw-nOKP8KsCWFk4nZqsQQuEZGpx5fs',
-  authDomain: 'khataapp-92a39.firebaseapp.com',
-  databaseURL: 'https://khataapp-92a39.firebaseio.com/',
-  storageBucket: 'gs://khataapp-92a39.appspot.com/'
-};
-
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
 
 const initialState = AppNavigator.router.getStateForAction(
   AppNavigator.router.getActionForPathAndParams('Home')
@@ -60,13 +42,13 @@ const store = createStore(appReducer, applyMiddleware(...middlewares));
 // Run Saga Middleware
 sagaMiddleware.run(rootSagas);
 
-class ReduxNavigation extends Component<Props> {
+// Dispatch the settings
+const query = {};
+store.dispatch(getSettingsReq(query));
+
+class ReduxNavigation extends Component {
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid);
-
-    // Dispatch the settings
-    const query = {};
-    this.props.dispatch(getSettingsReq(query));
   }
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid);

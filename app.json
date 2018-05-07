@@ -1,7 +1,7 @@
 {
   "expo": {
-   "name": "Khata App",
-   "icon": "./src/assets/images/wallet.png",
+   "name": "Khata",
+   "icon": "./src/assets/images/khata-icon.png",
    "version": "1.0.0",
    "slug": "khata-app",
    "sdkVersion": "26.0.0",
@@ -14,7 +14,12 @@
    "android": {
 	 "package": "com.crumet.khataapp",
 	 "versionCode": 1,
-	 "permissions": []
-   }
+   "permissions": []
+   },
+   "splash": {
+      "backgroundColor": "#212f3d",
+      "image": "./src/assets/images/splash-screen.png",
+      "resizeMode": "contain"
+    }
   }
 }

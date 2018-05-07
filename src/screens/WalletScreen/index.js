@@ -14,11 +14,11 @@ const styles = StyleSheet.create({
     padding: 8
   },
   topBox: {
-    backgroundColor: '#2c3e50',
+    backgroundColor: '#054757',
     margin: -8,
     marginBottom: -32,
-    paddingTop: 24,
-    paddingBottom: 48
+    paddingTop: 32,
+    paddingBottom: 56
   },
   walletAmount: {
     padding: 16,
@@ -28,11 +28,6 @@ const styles = StyleSheet.create({
   walletCard: {
     padding: 16,
     flexDirection: 'row'
-  },
-  walletImage: {
-    height: 80,
-    width: 80,
-    marginRight: 32
   },
   overlay: {
     backgroundColor: 'rgba(0,0,0,0.6)'
@@ -124,7 +119,7 @@ class WalletScreen extends Component {
             <ImageBackground
               style={{
                 width: '100%',
-                backgroundColor: '#fff'
+                backgroundColor: '#191919'
               }}
               source={IncomeBg}
             >
@@ -148,7 +143,7 @@ class WalletScreen extends Component {
             <ImageBackground
               style={{
                 width: '100%',
-                backgroundColor: '#fff'
+                backgroundColor: '#191919'
               }}
               source={ExpenseBg}
             >
@@ -170,7 +165,7 @@ class WalletScreen extends Component {
             <ImageBackground
               style={{
                 width: '100%',
-                backgroundColor: '#fff'
+                backgroundColor: '#191919'
               }}
               source={SavingBg}
             >

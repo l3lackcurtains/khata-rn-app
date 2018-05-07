@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
 import { ListItem, RadioButton } from 'react-native-material-ui';
+import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { translateText } from '../../utils/helper';
 import Translate from '../../utils/Translate';
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
     padding: 0
   },
   listItem: {
-    paddingHorizontal: 16,
+    paddingRight: 16,
     height: 65
   },
   languageButtonGroup: {
@@ -100,10 +101,14 @@ class MoreScreen extends Component {
       <View style={styles.wrapper}>
         <ListItem
           style={{
-            container: styles.listItem
+            container: styles.listItem,
+            centerElementContainer: {
+              marginLeft: -20
+            }
           }}
           divider
           dense
+          leftElement={<MaterialIcons name="g-translate" size={24} />}
           centerElement={
             <View>
               <PText style={styles.settingTitle}>
@@ -118,9 +123,15 @@ class MoreScreen extends Component {
           onPress={() => this.setState({ languageModal: true })}
         />
         <ListItem
-          style={{ container: styles.listItem }}
+          style={{
+            container: styles.listItem,
+            centerElementContainer: {
+              marginLeft: -20
+            }
+          }}
           divider
           dense
+          leftElement={<MaterialCommunityIcons name="currency-btc" size={24} />}
           centerElement={
             <View>
               <PText style={styles.settingTitle}>

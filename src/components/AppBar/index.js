@@ -9,9 +9,9 @@ const AppBar = () => (
   <Toolbar
     centerElement={
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Image style={{ height: 35, width: 35 }} source={logo} />
+        <Image style={{ height: 28, width: 28 }} source={logo} />
         <LPText
-          style={{ fontSize: 28, fontWeight: '500', fontFamily: 'cabin-regular', marginLeft: 24 }}
+          style={{ fontSize: 24, fontWeight: '500', fontFamily: 'cabin-regular', marginLeft: 24 }}
         >
           <Translate id="khata">Khata</Translate>
         </LPText>
@@ -19,7 +19,7 @@ const AppBar = () => (
     }
     style={{
       container: {
-        backgroundColor: '#2c3e50',
+        backgroundColor: '#054757',
         elevation: 0
       },
       titleText: {

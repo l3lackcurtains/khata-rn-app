@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
   topBox: {
     flexDirection: 'column',
-    backgroundColor: '#2c3e50',
+    backgroundColor: '#054757',
     marginHorizontal: -8,
     marginTop: -8,
     padding: 8,
@@ -69,11 +69,13 @@ const styles = StyleSheet.create({
   expenseDate: {
     fontSize: 18,
     fontWeight: '500',
-    color: '#0984e3'
+    color: '#0984e3',
+    textAlign: 'center'
   },
   expenseMonth: {
     fontSize: 12,
-    color: '#555'
+    color: '#555',
+    textAlign: 'center'
   },
   expenseFrom: {
     fontSize: 16,
@@ -232,7 +234,9 @@ class ExpenseScreen extends Component {
             </LH1Text>
             <PrimaryButton
               text={translateText(language, 'addExpense', 'Add Expense')}
-              disabled={!this.state.expenseFrom || !this.state.expenseAmount}
+              disabled={
+                !this.state.expenseFrom || !this.state.expenseAmount.toString().match('^\\d+$')
+              }
               onPress={this.onAddExpense}
             />
           </View>
@@ -253,8 +257,9 @@ class ExpenseScreen extends Component {
                   dense
                   numberOfLines="dynamic"
                   style={{
-                    centerElementContainer: {
-                      marginLeft: -20
+                    leftElementContainer: {
+                      width: 48,
+                      marginLeft: 4
                     }
                   }}
                   centerElement={
@@ -294,7 +299,10 @@ class ExpenseScreen extends Component {
             <PrimaryButton
               text={translateText(language, 'update', 'Update')}
               onPress={this.onUpdateExpense}
-              disabled={!this.state.expenseFromUpdate || !this.state.expenseAmountUpdate}
+              disabled={
+                !this.state.expenseFromUpdate ||
+                !this.state.expenseAmountUpdate.toString().match('^\\d+$')
+              }
             />
           }
           secondaryAction={

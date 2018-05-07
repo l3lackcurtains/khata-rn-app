@@ -5,12 +5,9 @@ import { Button } from 'react-native-material-ui';
 const PrimaryButton = props => (
   <Button
     raised
+    primary
     style={{
-      container: {
-        backgroundColor: '#0984e3'
-      },
       text: {
-        color: '#fff',
         fontFamily: 'Roboto'
       }
     }}

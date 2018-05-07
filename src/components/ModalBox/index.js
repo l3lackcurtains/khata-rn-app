@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
   dialogBoxTitle: {
     padding: 16,
-    backgroundColor: '#2c3e50',
+    backgroundColor: '#054757',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'

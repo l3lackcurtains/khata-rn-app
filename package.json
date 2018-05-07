@@ -11,7 +11,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.7.0",
-    "exp": "^53.0.0",
+    "exp": "^53.1.0",
     "flow-bin": "^0.70.0",
     "husky": "^0.14.3",
     "jest-expo": "^26.0.0",
@@ -39,7 +39,6 @@
   "dependencies": {
     "@expo/vector-icons": "^6.3.1",
     "expo": "^26.0.0",
-    "firebase": "^4.13.1",
     "lodash": "^4.17.10",
     "moment": "^2.22.1",
     "react": "16.3.0",

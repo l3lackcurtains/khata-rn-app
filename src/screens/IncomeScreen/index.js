@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
   topBox: {
     flexDirection: 'column',
-    backgroundColor: '#2c3e50',
+    backgroundColor: '#054757',
     marginHorizontal: -8,
     marginTop: -8,
     padding: 8,
@@ -69,11 +69,13 @@ const styles = StyleSheet.create({
   incomeDate: {
     fontSize: 18,
     fontWeight: '500',
-    color: '#0984e3'
+    color: '#0984e3',
+    textAlign: 'center'
   },
   incomeMonth: {
     fontSize: 12,
-    color: '#555'
+    color: '#555',
+    textAlign: 'center'
   },
   incomeFrom: {
     fontSize: 16,
@@ -232,7 +234,9 @@ class IncomeScreen extends Component {
             </LH1Text>
             <PrimaryButton
               text={translateText(language, 'addIncome', 'Add Income')}
-              disabled={!this.state.incomeFrom || !this.state.incomeAmount}
+              disabled={
+                !this.state.incomeFrom || !this.state.incomeAmount.toString().match('^\\d+$')
+              }
               onPress={this.onAddIncome}
             />
           </View>
@@ -253,8 +257,9 @@ class IncomeScreen extends Component {
                   dense
                   numberOfLines="dynamic"
                   style={{
-                    centerElementContainer: {
-                      marginLeft: -20
+                    leftElementContainer: {
+                      width: 48,
+                      marginLeft: 4
                     }
                   }}
                   centerElement={
@@ -294,7 +299,10 @@ class IncomeScreen extends Component {
             <PrimaryButton
               text={translateText(language, 'update', 'Update')}
               onPress={this.onUpdateIncome}
-              disabled={!this.state.incomeFromUpdate || !this.state.incomeAmountUpdate}
+              disabled={
+                !this.state.incomeFromUpdate ||
+                !this.state.incomeAmountUpdate.toString().match('^\\d+$')
+              }
             />
           }
           secondaryAction={

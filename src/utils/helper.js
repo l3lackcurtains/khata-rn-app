@@ -36,7 +36,6 @@ const transformNumberToNepali = value => {
         valArray[index] = '०';
         break;
       default:
-        valArray[index] = '०';
         break;
     }
   });

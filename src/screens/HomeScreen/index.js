@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
 import { BottomNavigation } from 'react-native-material-ui';
-import { Entypo, MaterialIcons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import moment from 'moment';
 
 import { translateText } from '../../utils/helper';
@@ -82,31 +82,31 @@ class HomeScreen extends Component {
         >
           <BottomNavigation.Action
             key="wallet"
-            icon={<Entypo name="wallet" size={24} />}
+            icon={<Feather name="pocket" size={22} />}
             label={translateText(lan, 'wallet', 'Wallet')}
             onPress={() => this.setState({ active: 'wallet' })}
           />
           <BottomNavigation.Action
             key="income"
-            icon={<MaterialIcons name="add-circle-outline" size={24} />}
+            icon={<Feather name="plus-circle" size={22} />}
             label={translateText(lan, 'income', 'Income')}
             onPress={() => this.setState({ active: 'income' })}
           />
           <BottomNavigation.Action
             key="expense"
-            icon={<MaterialIcons name="remove-circle-outline" size={24} />}
+            icon={<Feather name="minus-circle" size={22} />}
             label={translateText(lan, 'expense', 'Expense')}
             onPress={() => this.setState({ active: 'expense' })}
           />
           <BottomNavigation.Action
             key="saving"
-            icon={<Entypo name="save" size={24} />}
+            icon={<Feather name="layers" size={22} />}
             label={translateText(lan, 'saving', 'Saving')}
             onPress={() => this.setState({ active: 'saving' })}
           />
           <BottomNavigation.Action
             key="more"
-            icon={<MaterialIcons name="more-horiz" size={24} />}
+            icon={<Feather name="more-horizontal" size={24} />}
             label={translateText(lan, 'more', 'more')}
             onPress={() => this.setState({ active: 'more' })}
           />
