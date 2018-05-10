@@ -134,8 +134,8 @@ class ExpenseScreen extends Component {
     const query = { expenseAmount, expenseFrom };
     this.props.dispatch(addExpenseReq(query));
     this.setState({
-      expenseAmount: null,
-      expenseFrom: null
+      expenseAmount: '',
+      expenseFrom: ''
     });
     Keyboard.dismiss();
   };
@@ -150,8 +150,8 @@ class ExpenseScreen extends Component {
     };
     this.props.dispatch(updateExpenseReq(query));
     this.setState({
-      expenseAmount: null,
-      expenseFrom: null
+      expenseAmount: '',
+      expenseFrom: ''
     });
     this.closeModal('updateModal');
   };
@@ -161,8 +161,8 @@ class ExpenseScreen extends Component {
     const query = { id };
     this.props.dispatch(removeExpenseReq(query));
     this.setState({
-      expenseAmount: null,
-      expenseFrom: null
+      expenseAmount: '',
+      expenseFrom: ''
     });
     this.closeModal('updateModal');
   };
@@ -191,9 +191,9 @@ class ExpenseScreen extends Component {
   closeModal(name) {
     this.setState({
       [name]: false,
-      currentId: null,
-      expenseAmount: null,
-      expenseFrom: null
+      currentId: '',
+      expenseAmount: '',
+      expenseFrom: ''
     });
   }
 

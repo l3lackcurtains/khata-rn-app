@@ -134,8 +134,8 @@ class SavingScreen extends Component {
     const query = { savingAmount, savingFrom };
     this.props.dispatch(addSavingReq(query));
     this.setState({
-      savingAmount: null,
-      savingFrom: null
+      savingAmount: '',
+      savingFrom: ''
     });
     Keyboard.dismiss();
   };
@@ -150,8 +150,8 @@ class SavingScreen extends Component {
     };
     this.props.dispatch(updateSavingReq(query));
     this.setState({
-      savingAmount: null,
-      savingFrom: null
+      savingAmount: '',
+      savingFrom: ''
     });
     this.closeModal('updateModal');
   };
@@ -161,8 +161,8 @@ class SavingScreen extends Component {
     const query = { id };
     this.props.dispatch(removeSavingReq(query));
     this.setState({
-      savingAmount: null,
-      savingFrom: null
+      savingAmount: '',
+      savingFrom: ''
     });
     this.closeModal('updateModal');
   };
@@ -191,9 +191,9 @@ class SavingScreen extends Component {
   closeModal(name) {
     this.setState({
       [name]: false,
-      currentId: null,
-      savingAmount: null,
-      savingFrom: null
+      currentId: '',
+      savingAmount: '',
+      savingFrom: ''
     });
   }
 

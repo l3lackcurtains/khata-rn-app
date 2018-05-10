@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Font, AppLoading } from 'expo';
+import { Font } from 'expo';
 import { ThemeProvider } from 'react-native-material-ui';
 
 import { AppWithNavigationState } from './redux';
@@ -38,7 +38,7 @@ class AppTheme extends Component {
   }
 
   render() {
-    if (!this.state.fontLoaded) return <AppLoading />;
+    if (!this.state.fontLoaded) return null;
     return (
       <ThemeProvider uiTheme={uiTheme}>
         <AppWithNavigationState />

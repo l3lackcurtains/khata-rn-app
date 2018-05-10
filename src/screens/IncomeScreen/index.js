@@ -134,8 +134,8 @@ class IncomeScreen extends Component {
     const query = { incomeAmount, incomeFrom };
     this.props.dispatch(addIncomeReq(query));
     this.setState({
-      incomeAmount: null,
-      incomeFrom: null
+      incomeAmount: '',
+      incomeFrom: ''
     });
     Keyboard.dismiss();
   };
@@ -150,8 +150,8 @@ class IncomeScreen extends Component {
     };
     this.props.dispatch(updateIncomeReq(query));
     this.setState({
-      incomeAmount: null,
-      incomeFrom: null
+      incomeAmount: '',
+      incomeFrom: ''
     });
     this.closeModal('updateModal');
   };
@@ -161,8 +161,8 @@ class IncomeScreen extends Component {
     const query = { id };
     this.props.dispatch(removeIncomeReq(query));
     this.setState({
-      incomeAmount: null,
-      incomeFrom: null
+      incomeAmount: '',
+      incomeFrom: ''
     });
     this.closeModal('updateModal');
   };
@@ -191,9 +191,9 @@ class IncomeScreen extends Component {
   closeModal(name) {
     this.setState({
       [name]: false,
-      currentId: null,
-      incomeAmount: null,
-      incomeFrom: null
+      currentId: '',
+      incomeAmount: '',
+      incomeFrom: ''
     });
   }
 
