@@ -39,7 +39,7 @@
   "dependencies": {
     "@expo/vector-icons": "^6.3.1",
     "expo": "^26.0.0",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.13",
     "moment": "^2.22.1",
     "react": "16.3.0",
     "react-motion": "^0.5.2",
